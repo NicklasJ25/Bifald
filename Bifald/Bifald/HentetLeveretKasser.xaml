@@ -1,0 +1,29 @@
+﻿<Page x:Class="Bifald.HentetLeveretKasser"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Bifald"
+      mc:Ignorable="d" 
+      d:DesignHeight="660" d:DesignWidth="1040"
+      Title="SeHentetLeveretKasser">
+
+    <Grid>
+        <Label x:Name="sagsnummerLabel" Content="Sagsnummer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Width="150" FontSize="16"/>
+        <TextBox x:Name="sagsnummerTextbox" HorizontalAlignment="Left" Height="33" Margin="165,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" FontSize="16"/>
+        <Label x:Name="datoLabel" Content="Dato" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,130,0,0" Width="150" FontSize="16"/>
+        <DatePicker x:Name="datoDatePicker" HorizontalAlignment="Left" Margin="175,130,0,0" VerticalAlignment="Top" Width="305" Height="33" FirstDayOfWeek="Monday" FontSize="16"/>
+        <Button x:Name="søgButton" Content="Søg i pladser" Tag="Forside.xaml" Margin="330,200,0,0" Height="50" FontSize="16" Click="SøgButton_Click" IsDefault="True" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top"/>
+        <Button x:Name="tilbageButton" Content="Tilbage" Tag="Kasser.xaml" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="150" Margin="20,0,0,20" Height="50" FontSize="16" Click="TilbageButton_Click"/>
+        <ListView x:Name="kasserListView" Margin="500,20,20,20">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Sagsnummer" DisplayMemberBinding="{Binding Sagsnummer}" />
+                    <GridViewColumn Header="Antal" DisplayMemberBinding="{Binding Antal}" />
+                    <GridViewColumn Header="Hentet eller Leveret" DisplayMemberBinding="{Binding Hentet_leveret}" />
+                    <GridViewColumn Header="Dato" DisplayMemberBinding="{Binding Hentet_leveret_dato, StringFormat='dd MMMM, yyyy', ConverterCulture='da-DK'}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Page>

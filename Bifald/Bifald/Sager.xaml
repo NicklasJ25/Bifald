@@ -1,0 +1,31 @@
+﻿<Page x:Class="Bifald.Sager"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Bifald"
+      mc:Ignorable="d" 
+      d:DesignHeight="660" d:DesignWidth="1040"
+      Title="SøgIPladser">
+
+    <Grid>
+        <Label x:Name="sagsnummerLabel" Content="Sagsnummer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,48,0,0" Width="150" FontSize="16"/>
+        <TextBox x:Name="sagsnummerTextbox" HorizontalAlignment="Left" Height="33" Margin="175,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="305" FontSize="16"/>
+        <Label x:Name="pladsnummerLabel" Content="Pladsnummer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,119,0,0" Width="150" FontSize="16"/>
+        <TextBox x:Name="pladsnummerTextbox" HorizontalAlignment="Left" Height="33" Margin="175,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="305" FontSize="16"/>
+        <Label x:Name="kundeLabel" Content="Kunde" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,189,0,0" Width="150" FontSize="16"/>
+        <TextBox x:Name="kundeTextbox" HorizontalAlignment="Left" Height="33" Margin="175,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="305" FontSize="16"/>
+        <Button x:Name="søgButton" Content="Søg i pladser" Tag="Forside.xaml" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="330,240,0,0" Height="50" FontSize="16" Click="søgButton_Click" IsDefault="True"/>
+        <Button x:Name="printButton" Content="Print liste" Margin="330,0,0,20" Height="50" FontSize="16" Click="printButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="150"/>
+        <ListView x:Name="sagerListView" Margin="500,20,20,20" MouseDoubleClick="sagerListView_MouseDoubleClick">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Sagsnummer" DisplayMemberBinding="{Binding sagsnummer}" />
+                    <GridViewColumn Header="Pladsnumre" Width="200" DisplayMemberBinding="{Binding pladser}" />
+                    <GridViewColumn Header="Kunde" DisplayMemberBinding="{Binding kunde}" />
+                    <GridViewColumn Header="Start addresse" DisplayMemberBinding="{Binding adresseFra}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Page>

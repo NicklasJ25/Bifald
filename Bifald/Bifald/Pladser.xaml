@@ -1,0 +1,34 @@
+﻿<Page x:Class="Bifald.OpretSletPladser"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Bifald"
+      mc:Ignorable="d" 
+      d:DesignHeight="660" d:DesignWidth="1040"
+      Title="OpretSletPladser">
+
+    <Grid>
+        <TextBox x:Name="søgningTextBox" HorizontalAlignment="Left" Height="33" Margin="175,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="305" FontSize="16"/>
+        <Button x:Name="søgButton" Content="Søg i pladser" VerticalAlignment="Top" Margin="330,100,0,0" Height="50" FontSize="16" Click="søgButton_Click" IsDefault="True" HorizontalAlignment="Left" Width="150"/>
+        <Label x:Name="pladsnummerLabel" Content="Pladsnummer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,276,0,0" Width="150" FontSize="16"/>
+        <TextBox x:Name="pladsnummerTextBox" HorizontalAlignment="Left" Height="33" Margin="175,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="305" FontSize="16"/>
+        <Label x:Name="typeLabel" Content="Type" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,329,0,0" Width="150" FontSize="16"/>
+        <ComboBox x:Name="pladsLiftComboBox" HorizontalAlignment="Left" Margin="175,327,0,0" VerticalAlignment="Top" Height="33" Width="305">
+            <ComboBoxItem Content="Vælg type" IsEnabled="False" IsSelected="True"/>
+            <ComboBoxItem Content="Plads"/>
+            <ComboBoxItem Content="Lift"/>
+        </ComboBox>
+        <Button x:Name="opretPladsButton" Content="Opret plads" VerticalAlignment="Top" Margin="330,381,0,0" Height="50" FontSize="16" Click="opretPladsButton_Click" IsDefault="True" HorizontalAlignment="Left" Width="150"/>
+        <Button x:Name="sletPladsButton" Content="Slet plads" VerticalAlignment="Bottom" Margin="330,0,0,20" Height="50" FontSize="16" Click="sletPladsButton_Click" Grid.Row="1" HorizontalAlignment="Left" Width="150"/>
+        <ListView x:Name="pladserListView" Margin="500,20,20,20" Grid.RowSpan="2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Pladsnummer" Width="125" DisplayMemberBinding="{Binding Pladsnummer}" />
+                    <GridViewColumn Header="Type" Width="125" DisplayMemberBinding="{Binding Type}" />
+                    <GridViewColumn Header="Sagsnummer" DisplayMemberBinding="{Binding Sagsnummer}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Page>

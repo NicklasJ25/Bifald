@@ -1,0 +1,50 @@
+﻿<Window x:Class="Bifald.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Left="20" Top="20"
+        Title="MainWindow" Height="800" Width="1250"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
+    <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel MinWidth="212">
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                                    DockPanel.Dock="Top"
+                                    HorizontalAlignment="Right" Margin="16"
+                                    IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                    <ListBox x:Name="menuListBox" Margin="0 16 0 16" SelectedIndex="0" MouseLeftButtonUp="MenuListBox_MouseLeftButtonUp">
+                        <TextBlock Text="Forside" Tag="Forside.xaml"/>
+                        <TextBlock Text="Sager" Tag="Sager.xaml"/>
+                        <TextBlock Text="Opret sag" Tag="OpretSag.xaml"/>
+                        <TextBlock Text="Afsluttet sager" Tag="AfsluttedeSager.xaml"/>
+                        <TextBlock Text="Pladser" Tag="Pladser.xaml"/>
+                        <TextBlock Text="Kasser" Tag="Kasser.xaml"/>
+                        <Separator/>
+                        <TextBlock Text="Backup/gendan Database" Tag="Database.xaml"/>
+                    </ListBox>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <DockPanel>
+                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                            Mode="PrimaryMid" DockPanel.Dock="Top">
+                    <DockPanel>
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                                        x:Name="MenuToggleButton"/>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Text="Bifald: Montage &amp; flytteservice"/>
+                    </DockPanel>
+                </materialDesign:ColorZone>
+                <Grid>
+                    <Frame Name="frame" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Source="Forside.xaml" NavigationUIVisibility="Hidden"/>
+                </Grid>
+            </DockPanel>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
+</Window>
