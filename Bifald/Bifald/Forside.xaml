@@ -8,7 +8,7 @@
       Title="Forside">
 
     <Grid>
-        <Image x:Name="image" Margin="270,80" Source="Images/Bifald logo.jpg"/>
+        <Image x:Name="image" Margin="270,80" Source="Images/Bifald logo.png"/>
 
     </Grid>
 </Page>
