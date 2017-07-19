@@ -9,7 +9,7 @@
       Title="Database">
 
     <Grid>
-        <Button x:Name="backupButton" Content="Backup database" HorizontalAlignment="Left" Width="200" Margin="375,300,0,0" Height="50" FontSize="16" Click="backupButton_Click" VerticalAlignment="Top"/>
-        <Button x:Name="genskabButton" Content="Genskab database" Margin="0,300,375,0" Height="50" FontSize="16" Click="genskabButton_Click" HorizontalAlignment="Right" Width="200" VerticalAlignment="Top"/>
+        <Button x:Name="backupButton" Content="Backup database" HorizontalAlignment="Left" Width="200" Margin="375,300,0,0" Height="50" FontSize="16" Click="backupButton_Click" VerticalAlignment="Top" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
+        <Button x:Name="genskabButton" Content="Genskab database" Margin="0,300,375,0" Height="50" FontSize="16" Click="genskabButton_Click" HorizontalAlignment="Right" Width="200" VerticalAlignment="Top" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
     </Grid>
 </Page>

@@ -24,8 +24,8 @@
         <TextBox x:Name="antalTextbox" HorizontalAlignment="Left" Height="33" Margin="175,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16"/>
         <Label x:Name="antalLabel" Content="Antal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,290,0,0" Width="150" FontSize="16"/>
         <Label x:Name="leveretKasserLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="509,51,0,0" Width="490" FontSize="16"/>
-        <Button x:Name="hentLeverButton" Content="Hent/Lever" Margin="294,350,0,0" Height="50" FontSize="16" Click="HentLeverButton_Click" IsDefault="True" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150"/>
-        <Button x:Name="HentetLeveretKasserButton" Content="Se hentede og leveret kasser" Tag="HentetLeveretKasser.xaml" HorizontalAlignment="Right" Width="290" Margin="0,0,20,20" Height="50" FontSize="16" Click="HentetLeveretKasserButton_Click" VerticalAlignment="Bottom"/>
+        <Button x:Name="hentLeverButton" Content="Hent/Lever" Margin="294,350,0,0" Height="50" FontSize="16" Click="HentLeverButton_Click" IsDefault="True" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
+        <Button x:Name="HentetLeveretKasserButton" Content="Se hentede og leveret kasser" Tag="HentetLeveretKasser.xaml" HorizontalAlignment="Right" Width="290" Margin="0,0,20,20" Height="50" FontSize="16" Click="HentetLeveretKasserButton_Click" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
         
     </Grid>
 </Page>

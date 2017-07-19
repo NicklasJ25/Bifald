@@ -30,9 +30,9 @@
             <TextBox x:Name="startAdresseTextbox" HorizontalAlignment="Left" Height="33" Margin="665,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False"/>
             <Label x:Name="slutAddresseLabel" Content="Slut addresse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,210,0,0" Width="150" FontSize="16"/>
             <TextBox x:Name="slutAdresseTextbox" HorizontalAlignment="Left" Height="33" Margin="665,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False"/>
-            <Button x:Name="tilbageButton" Content="Tilbage" Tag="Forside.xaml" HorizontalAlignment="Left" Width="150" Margin="20,0,0,20" Height="50" FontSize="16" Click="TilbageButton_Click" VerticalAlignment="Bottom"/>
-            <Button x:Name="retGemButton" Content="Ret information" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="160" Margin="0,0,195,20" Height="50" FontSize="16" IsDefault="True" Click="RetGemButton_Click"/>
-            <Button x:Name="afslutGenoptagButton" HorizontalAlignment="Right" Width="150" Margin="0,0,20,20" Height="50" FontSize="16" IsDefault="True" Click="AfslutGenoptagButton_Click" VerticalAlignment="Bottom" Content="Afslut/genoptag"/>
+            <Button x:Name="tilbageButton" Content="Tilbage" Tag="Forside.xaml" HorizontalAlignment="Left" Width="150" Margin="20,0,0,20" Height="50" FontSize="16" Click="TilbageButton_Click" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
+            <Button x:Name="retGemButton" Content="Ret information" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="160" Margin="0,0,195,20" Height="50" FontSize="16" IsDefault="True" Click="RetGemButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
+            <Button x:Name="afslutGenoptagButton" HorizontalAlignment="Right" Width="150" Margin="0,0,20,20" Height="50" FontSize="16" IsDefault="True" Click="AfslutGenoptagButton_Click" VerticalAlignment="Bottom" Content="Afslut/genoptag" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
         </Grid>
     </Grid>
 </Page>

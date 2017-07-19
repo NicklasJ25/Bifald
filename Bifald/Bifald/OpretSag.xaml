@@ -26,6 +26,6 @@
         <TextBox x:Name="startAddresseTextbox" HorizontalAlignment="Left" Height="33" Margin="665,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16"/>
         <Label x:Name="slutAddresseLabel" Content="Slut addresse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,210,0,0" Width="150" FontSize="16"/>
         <TextBox x:Name="slutAddresseTextbox" HorizontalAlignment="Left" Height="33" Margin="665,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16"/>
-        <Button x:Name="opretSagButton" Content="Opret sag" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150" Margin="0,0,20,20" Height="50" FontSize="16" Click="opretSagButton_Click"/>
+        <Button x:Name="opretSagButton" Content="Opret sag" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150" Margin="0,0,20,20" Height="50" FontSize="16" Click="opretSagButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
     </Grid>
 </Page>

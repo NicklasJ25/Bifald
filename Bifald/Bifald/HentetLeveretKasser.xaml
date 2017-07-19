@@ -13,8 +13,8 @@
         <TextBox x:Name="sagsnummerTextbox" HorizontalAlignment="Left" Height="33" Margin="165,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" FontSize="16"/>
         <Label x:Name="datoLabel" Content="Dato" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,130,0,0" Width="150" FontSize="16"/>
         <DatePicker x:Name="datoDatePicker" HorizontalAlignment="Left" Margin="175,130,0,0" VerticalAlignment="Top" Width="305" Height="33" FirstDayOfWeek="Monday" FontSize="16"/>
-        <Button x:Name="søgButton" Content="Søg i pladser" Tag="Forside.xaml" Margin="330,200,0,0" Height="50" FontSize="16" Click="SøgButton_Click" IsDefault="True" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top"/>
-        <Button x:Name="tilbageButton" Content="Tilbage" Tag="Kasser.xaml" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="150" Margin="20,0,0,20" Height="50" FontSize="16" Click="TilbageButton_Click"/>
+        <Button x:Name="søgButton" Content="Søg i pladser" Tag="Forside.xaml" Margin="330,200,0,0" Height="50" FontSize="16" Click="SøgButton_Click" IsDefault="True" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
+        <Button x:Name="tilbageButton" Content="Tilbage" Tag="Kasser.xaml" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="150" Margin="20,0,0,20" Height="50" FontSize="16" Click="TilbageButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
         <ListView x:Name="kasserListView" Margin="500,20,20,20">
             <ListView.View>
                 <GridView>

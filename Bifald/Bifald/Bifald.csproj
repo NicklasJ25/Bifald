@@ -51,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Bifald logo ico.ico</ApplicationIcon>
+    <ApplicationIcon>Images\Bifald logo ico.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -235,7 +235,7 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </None>
     <Resource Include="Images\Bifald logo.png" />
-    <Resource Include="Bifald logo ico.ico" />
+    <Resource Include="Images\Bifald logo ico.ico" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
