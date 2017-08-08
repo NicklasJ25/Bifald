@@ -137,6 +137,9 @@
     <Compile Include="DB\Sager.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Dialog\CustomDialog.xaml.cs">
+      <DependentUpon>CustomDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forside.xaml.cs">
       <DependentUpon>Forside.xaml</DependentUpon>
     </Compile>
@@ -155,6 +158,10 @@
     <Page Include="Database.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialog\CustomDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forside.xaml">
       <SubType>Designer</SubType>

@@ -34,9 +34,6 @@ namespace MaterialDesignColors.WpfExample
             //eventArgs.Cancel();
 
             if (!Equals(eventArgs.Parameter, true)) return;
-            
-            if (!string.IsNullOrWhiteSpace(FruitTextBox.Text))
-                FruitListBox.Items.Add(FruitTextBox.Text.Trim());
         }
 
         private void Sample2_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)

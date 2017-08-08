@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Bifald.DB;
+using MaterialDesignThemes.Wpf;
+using Bifald.Dialog;
 
 namespace Bifald
 {
@@ -165,51 +167,66 @@ namespace Bifald
             }
         }
 
-        private void AfslutGenoptagButton_Click(object sender, RoutedEventArgs e)
+        private async void AfslutGenoptagButton_Click(object sender, RoutedEventArgs e)
         {
+            var view = new CustomDialog();
             if (afslutGenoptagButton.Content.Equals("Afslut sag"))
             {
-                if (MessageBox.Show("Er du sikker på du vil aflutte sagen: " + sag.Sagsnummer + "?", "Afslut sag", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                {
-                    DB.Sager afslutSag = database.Sager.Include(s => s.Pladser).SingleOrDefault(s => s.Sagsnummer == sag.Sagsnummer);
-                    List<Pladser> pladser = afslutSag.Pladser.ToList();
-                    afslutSag.Afsluttet = true;
+                view.label.Content = "Er du sikker på du vil aflutte sagen: " + sag.Sagsnummer + "?";
 
-                    foreach (Pladser plads in pladser)
-                    {
-                        Afsluttede_pladser afsluttetPlads = new Afsluttede_pladser
-                        {
-                            Sagsnummer = afslutSag.Sagsnummer,
-                            Pladsnummer = plads.Pladsnummer
-                        };
-                        database.Afsluttede_pladser.Add(afsluttetPlads);
-                        plads.Sagsnummer = null;
-                    }
-                    database.SaveChanges();
-                    afsluttetTextbox.Text = "Ja";
-                    afslutGenoptagButton.Content = "Genoptag sag";
-                    retGemButton.Visibility = Visibility.Hidden;
-                }
+                await DialogHost.Show(view, "RootDialog", AfslutClosingEventHandler);
             }
             else if (afslutGenoptagButton.Content.Equals("Genoptag sag"))
             {
-                if (MessageBox.Show("Er du sikker på du vil genoptage sagen: " + sag.Sagsnummer + "?", "Genoptag sag", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                {
-                    sag = database.Sager.Include(s => s.Pladser).SingleOrDefault(s => s.Sagsnummer == sag.Sagsnummer);
-                    sag.Afsluttet = false;
+                view.label.Content = "Er du sikker på du vil genoptage sagen: " + sag.Sagsnummer + "?";
 
-                    List<Afsluttede_pladser> afsluttedePladser = database.Afsluttede_pladser.Where(afs => afs.Sagsnummer == sag.Sagsnummer).ToList();
-                    foreach (Afsluttede_pladser afsluttetPlads in afsluttedePladser)
+                await DialogHost.Show(view, "RootDialog", GenoptagClosingEventHandler);
+            }
+        }
+
+        private void AfslutClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if ((bool) eventArgs.Parameter)
+            {
+                DB.Sager afslutSag = database.Sager.Include(s => s.Pladser).SingleOrDefault(s => s.Sagsnummer == sag.Sagsnummer);
+                List<Pladser> pladser = afslutSag.Pladser.ToList();
+                afslutSag.Afsluttet = true;
+
+                foreach (Pladser plads in pladser)
+                {
+                    Afsluttede_pladser afsluttetPlads = new Afsluttede_pladser
                     {
-                        Pladser plads = database.Pladser.Find(afsluttetPlads.Pladsnummer);
-                        plads.Sagsnummer = afsluttetPlads.Sagsnummer;
-                        database.Afsluttede_pladser.Remove(afsluttetPlads);
-                    }
-                    database.SaveChanges();
-                    afsluttetTextbox.Text = "Nej";
-                    afslutGenoptagButton.Content = "Afslut sag";
-                    retGemButton.Visibility = Visibility.Visible;
+                        Sagsnummer = afslutSag.Sagsnummer,
+                        Pladsnummer = plads.Pladsnummer
+                    };
+                    database.Afsluttede_pladser.Add(afsluttetPlads);
+                    plads.Sagsnummer = null;
                 }
+                database.SaveChanges();
+                afsluttetTextbox.Text = "Ja";
+                afslutGenoptagButton.Content = "Genoptag sag";
+                retGemButton.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void GenoptagClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if ((bool)eventArgs.Parameter)
+            {
+                sag = database.Sager.Include(s => s.Pladser).SingleOrDefault(s => s.Sagsnummer == sag.Sagsnummer);
+                sag.Afsluttet = false;
+
+                List<Afsluttede_pladser> afsluttedePladser = database.Afsluttede_pladser.Where(afs => afs.Sagsnummer == sag.Sagsnummer).ToList();
+                foreach (Afsluttede_pladser afsluttetPlads in afsluttedePladser)
+                {
+                    Pladser plads = database.Pladser.Find(afsluttetPlads.Pladsnummer);
+                    plads.Sagsnummer = afsluttetPlads.Sagsnummer;
+                    database.Afsluttede_pladser.Remove(afsluttetPlads);
+                }
+                database.SaveChanges();
+                afsluttetTextbox.Text = "Nej";
+                afslutGenoptagButton.Content = "Afslut sag";
+                retGemButton.Visibility = Visibility.Visible;
             }
         }
 
