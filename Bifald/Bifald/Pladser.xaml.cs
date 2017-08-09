@@ -48,19 +48,21 @@ namespace Bifald
 
         private async void sletPladsButton_Click(object sender, RoutedEventArgs e)
         {
-            
-
+            var view = new CustomDialog();
             if (pladserListView.SelectedItem != null)
             {
                 Pladser plads = (Pladser)pladserListView.SelectedItem;
-                var view = new CustomDialog();
                 view.label.Content = "Er du sikker på du vil slette " + plads.Type + " " + plads.Pladsnummer + "?";
 
                 await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
             }
             else
             {
-                MessageBox.Show("Vælg en plads der skal slettes");
+                view.label.Content = "Vælg en plads der skal slettes.";
+                view.cancelButton.Visibility = Visibility.Hidden;
+                view.acceptButton.Content = "OK";
+
+                await DialogHost.Show(view);
             }
         }
 
