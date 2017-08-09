@@ -1,5 +1,7 @@
 ﻿using Bifald;
 using Bifald.DB;
+using Bifald.Dialog;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,23 +46,34 @@ namespace Bifald
             }
         }
 
-        private void sletPladsButton_Click(object sender, RoutedEventArgs e)
+        private async void sletPladsButton_Click(object sender, RoutedEventArgs e)
         {
+            
+
             if (pladserListView.SelectedItem != null)
             {
                 Pladser plads = (Pladser)pladserListView.SelectedItem;
-                if (MessageBox.Show("Er du sikker på du vil slette " + plads.Type + " " + plads.Pladsnummer + "?", "Sikker?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                {
-                    Pladser sletPlads = database.Pladser.Find(plads.Pladsnummer);
-                    database.Pladser.Remove(sletPlads);
-                    database.SaveChanges();
-                }
-                List<Pladser> pladser = database.Pladser.OrderBy(p => p.Pladsnummer).ToList();
-                pladserListView.ItemsSource = pladser;
+                var view = new CustomDialog();
+                view.label.Content = "Er du sikker på du vil slette " + plads.Type + " " + plads.Pladsnummer + "?";
+
+                await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
             }
             else
             {
                 MessageBox.Show("Vælg en plads der skal slettes");
+            }
+        }
+
+        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if ((bool)eventArgs.Parameter)
+            {
+                Pladser plads = (Pladser)pladserListView.SelectedItem;
+                Pladser sletPlads = database.Pladser.Find(plads.Pladsnummer);
+                database.Pladser.Remove(sletPlads);
+                database.SaveChanges();
+                List<Pladser> pladser = database.Pladser.OrderBy(p => p.Pladsnummer).ToList();
+                pladserListView.ItemsSource = pladser;
             }
         }
 
