@@ -17,36 +17,17 @@ namespace Bifald
         Validering validering = new Validering();
 
         string nytSagsnummer = "";
+        List<Pladser> pladser = new List<Pladser>();
 
         public ReserverPlads()
         {
             InitializeComponent();
-            //setPladser();
             opbevaringFraDatePicker.SelectedDate = opbevaringFraDatePicker.DisplayDate;
-        }
-
-        private void setPladser()
-        {
-            pladsnummerComboBox.Items.Clear();
-            ComboBoxItem cbi = new ComboBoxItem();
-            cbi.Content = "Vælg pladser";
-            cbi.IsEnabled = false;
-            cbi.IsSelected = true;
-            pladsnummerComboBox.Items.Add(cbi);
-
-            opbevaringFraDatePicker.SelectedDate = opbevaringFraDatePicker.DisplayDate;
-            Pladser[] pladser = database.Pladser.Where(p => string.IsNullOrEmpty(p.Sagsnummer)).ToArray();
-            foreach (Pladser plads in pladser)
-            {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Content = plads.Pladsnummer;
-                pladsnummerComboBox.Items.Add(checkBox);
-            }
         }
 
         private void opretSagButton_Click(object sender, RoutedEventArgs e)
         {
-            validering.ValiderOpretSag(sagsnummerTextbox.Text, kundeTextbox.Text, pladsnummerComboBox, 
+            validering.ValiderOpretSag(sagsnummerTextbox.Text, kundeTextbox.Text, pladser, 
                 startAddresseTextbox.Text, slutAddresseTextbox.Text, kasserTextbox.Text);
 
             if (string.IsNullOrEmpty(validering.opretSagValidering))
@@ -64,18 +45,6 @@ namespace Bifald
 
         private void OpretSag()
         {
-            List<Pladser> pladser = new List<Pladser>();
-            for (int i = 1; i < pladsnummerComboBox.Items.Count; i++)
-            {
-                CheckBox checkbox = pladsnummerComboBox.Items[i] as CheckBox;
-                if (checkbox.IsChecked == true)
-                {
-                    string checkboxContent = checkbox.Content.ToString();
-                    Pladser plads = database.Pladser.SingleOrDefault(p => p.Pladsnummer == checkboxContent);
-                    pladser.Add(plads);
-                }
-            }
-
             database.Kunder.Add(new Kunder
             {
                 Navn = kundeTextbox.Text,
@@ -93,7 +62,7 @@ namespace Bifald
                         Hentet_leveret_dato = opbevaringFraDatePicker.DisplayDate,
                         Hentet_leveret = "Leveret"
                         }},
-                        Noter = noterTextBlock.Text
+                        Noter = noterTextbox.Text
                     }}
             });
 
@@ -101,44 +70,78 @@ namespace Bifald
 
             sagsnummerTextbox.Text = null;
             kundeTextbox.Text = null;
-            setPladser();
             startAddresseTextbox.Text = null;
             slutAddresseTextbox.Text = null;
             kasserTextbox.Text = null;
         }
 
-        private void SagsnummerTextbox_LostFocus(object sender, RoutedEventArgs e)
+        private async void TilføjFjernPladserButton_Click(object sender, RoutedEventArgs e)
         {
-            bool exists = database.Sager.Any(s => s.Sagsnummer.Equals(sagsnummerTextbox.Text));
-            if (exists)
+            var view = new ListDialog();
+            view.cancelButton.Content = "Annuller";
+
+            Button button = sender as Button;
+            if (button.Name.Equals("tilføjPladserButton"))
             {
-                sagsnummerErrorLabel.Content = "Sagsnummer findes i forvejen";
+                view.label.Content = "Vælg de pladser/lifte der skal tilføjes til sagen";
+                view.acceptButton.Content = "Tilføj";
+
+                Pladser[] pladser = database.Pladser.Where(p => string.IsNullOrEmpty(p.Sagsnummer)).ToArray();
+                foreach (Pladser plads in pladser)
+                {
+                    if (!this.pladser.Contains(plads))
+                    {
+                        view.listView.Items.Add(plads.Pladsnummer);
+                    }
+                }
             }
             else
             {
-                sagsnummerErrorLabel.Content = "";
+                view.label.Content = "Vælg de pladser/lifte der skal fjernes fra sagen";
+                view.acceptButton.Content = "Fjern";
+
+                foreach (Pladser plads in pladser)
+                {
+                    view.listView.Items.Add(plads.Pladsnummer);
+                }
             }
+
+            await DialogHost.Show(view, "RootDialog", TilføjFjernPladserClosingEventHandler);
         }
 
-        private async void tilføjPladserButton_Click(object sender, RoutedEventArgs e)
+        private void TilføjFjernPladserClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            Pladser[] pladser = database.Pladser.Where(p => string.IsNullOrEmpty(p.Sagsnummer)).ToArray();
-
-            var view = new ListDialog();
-            view.label.Content = "Vælg de pladser/lifte der skal tilføjes til sagen";
-            foreach (Pladser plads in pladser)
+            if (!eventArgs.IsCancelled)
             {
-                view.listView.Items.Add(plads.Pladsnummer);
+                DialogHost dialogHost = sender as DialogHost;
+                ListDialog listDialog = dialogHost.DialogContent as ListDialog;
+                if (listDialog.acceptButton.Content.Equals("Tilføj"))
+                {
+                    foreach (String selectedItem in listDialog.listView.SelectedItems)
+                    {
+                        Pladser plads = database.Pladser.SingleOrDefault(p => p.Pladsnummer == selectedItem);
+                        pladser.Add(plads);
+                    }
+                }
+                else
+                {
+                    foreach (String selectedItem in listDialog.listView.SelectedItems)
+                    {
+                        Pladser plads = pladser.SingleOrDefault(p => p.Pladsnummer == selectedItem);
+                        pladser.Remove(plads);
+                    }
+                }
+
+                pladserTextbox.Text = "";
+                foreach (Pladser plads in pladser)
+                {
+                    pladserTextbox.Text += plads.Pladsnummer + "; ";
+                }
+                if (pladserTextbox.Text.Length != 0)
+                {
+                    pladserTextbox.Text = pladserTextbox.Text.Remove(pladserTextbox.Text.Length - 2);
+                }
             }
-            view.cancelButton.Content = "Annuller";
-            view.acceptButton.Content = "Tilføj";
-
-            await DialogHost.Show(view, "RootDialog", AfslutClosingEventHandler);
-        }
-
-        private void AfslutClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            
         }
 
         private bool SagsnummerExists()

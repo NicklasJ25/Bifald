@@ -33,10 +33,9 @@ namespace Bifald
             }
         }
 
-        public void ValiderOpretSag(string sagsnummer, string kunde, ComboBox comboBox, string addresseFra, string addresseTil, string kasser)
+        public void ValiderOpretSag(string sagsnummer, string kunde, List<Pladser> pladser, string addresseFra, string addresseTil, string kasser)
         {
             opretSagValidering = null;
-            int valgtePladser = 0;
 
             if (string.IsNullOrEmpty(sagsnummer))
             {
@@ -46,15 +45,7 @@ namespace Bifald
             {
                 opretSagValidering += "\nHusk at udfylde kundes navn";
             }
-            for (int i = 1; i < comboBox.Items.Count; i++)
-            {
-                CheckBox checkbox = comboBox.Items[i] as CheckBox;
-                if (checkbox.IsChecked == true)
-                {
-                    valgtePladser++;
-                }
-            }
-            if (valgtePladser == 0)
+            if (pladser.Count == 0)
             {
                 opretSagValidering += "\nHusk at vælge en eller flere pladser";
             }

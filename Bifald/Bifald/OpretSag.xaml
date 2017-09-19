@@ -10,27 +10,24 @@
 
     <Grid>
         <Label x:Name="sagsnummerLabel" Content="Sagsnummer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,50,0,0" Width="150" FontSize="16"/>
-        <TextBox x:Name="sagsnummerTextbox" HorizontalAlignment="Left" Height="33" Margin="175,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" LostFocus="SagsnummerTextbox_LostFocus"/>
+        <TextBox x:Name="sagsnummerTextbox" HorizontalAlignment="Left" Height="33" Margin="175,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16"/>
         <Label x:Name="sagsnummerErrorLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="175,83,0,0" Width="269" FontSize="16" Foreground="#DDFF0000" />
         <Label x:Name="pladsnummerLabel" Content="Pladsnummer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,130,0,0" Width="150" FontSize="16"/>
-        <ComboBox x:Name="pladsnummerComboBox" HorizontalAlignment="Left" Margin="175,130,0,0" VerticalAlignment="Top" Width="269" Height="33" FontSize="16">
-            <ComboBoxItem Content="Vælg pladser" FontSize="12" IsEnabled="False" IsSelected="True"/>
-        </ComboBox>
+        <TextBox x:Name="pladserTextbox" HorizontalAlignment="Left" Height="33" Margin="175,130,0,0" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False" IsReadOnly="True"/>
         <Label x:Name="opbevaringFraLabel" Content="Opbevaring fra" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,210,0,0" Width="150" FontSize="16"/>
         <DatePicker x:Name="opbevaringFraDatePicker" HorizontalAlignment="Left" Margin="175,210,0,0" VerticalAlignment="Top" Width="269" Height="33" FirstDayOfWeek="Monday" FontSize="16"/>
         <Label x:Name="kasserLabel" Content="Kasser" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,290,0,0" Width="150" FontSize="16"/>
-        <TextBox x:Name="kasserTextbox" HorizontalAlignment="Left" Height="33" Margin="175,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16"/>
+        <TextBox x:Name="kasserTextbox" HorizontalAlignment="Left" Height="33" Margin="175,290,0,0" VerticalAlignment="Top" Width="269" FontSize="16"/>
         <Label x:Name="noterLabel" Content="Noter" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,370,0,0" Width="150" FontSize="16"/>
-        <Border BorderBrush="#FF767676" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="175,370,0,0" VerticalAlignment="Top" Width="269">
-            <TextBlock x:Name="noterTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="100" Width="269"/>
-        </Border>
+        <TextBox x:Name="noterTextbox" HorizontalAlignment="Left" Margin="175,370,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" AcceptsReturn="True"/>
         <Label x:Name="kundeLabel" Content="Kunde" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,50,0,0" Width="150" FontSize="16"/>
-        <TextBox x:Name="kundeTextbox" HorizontalAlignment="Left" Height="33" Margin="662,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16"/>
+        <TextBox x:Name="kundeTextbox" HorizontalAlignment="Left" Height="33" Margin="662,50,0,0" VerticalAlignment="Top" Width="269" FontSize="16"/>
         <Label x:Name="startAddresseLabel" Content="Start addresse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,130,0,0" Width="150" FontSize="16"/>
         <TextBox x:Name="startAddresseTextbox" HorizontalAlignment="Left" Height="33" Margin="665,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16"/>
         <Label x:Name="slutAddresseLabel" Content="Slut addresse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,210,0,0" Width="150" FontSize="16"/>
         <TextBox x:Name="slutAddresseTextbox" HorizontalAlignment="Left" Height="33" Margin="665,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16"/>
         <Button x:Name="opretSagButton" Content="Opret sag" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150" Margin="0,0,20,20" Height="50" FontSize="16" Click="opretSagButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
-        <Button x:Name="tilføjPladserButton" Content="Tilføj pladser" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150" Margin="0,0,228,20" Height="50" FontSize="16" Click="tilføjPladserButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
+        <Button x:Name="tilføjPladserButton" Content="Tilføj pladser" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="319,168,0,0" Height="30" FontSize="16" Click="TilføjFjernPladserButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
+        <Button x:Name="fjernPladserButton" Content="Fjern pladser" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="175,168,0,0" Height="30" FontSize="16" Click="TilføjFjernPladserButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
     </Grid>
 </Page>
