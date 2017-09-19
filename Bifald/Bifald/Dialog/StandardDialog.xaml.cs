@@ -18,9 +18,9 @@ namespace Bifald.Dialog
     /// <summary>
     /// Interaction logic for CustomDialog.xaml
     /// </summary>
-    public partial class CustomDialog : UserControl
+    public partial class StandardDialog : UserControl
     {
-        public CustomDialog()
+        public StandardDialog()
         {
             InitializeComponent();
         }

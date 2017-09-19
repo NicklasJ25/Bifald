@@ -49,6 +49,7 @@
           <Property Name="Opbevaring_startdato" Type="date" Nullable="false" />
           <Property Name="Opbevaring_slutdato" Type="date" />
           <Property Name="Afsluttet" Type="bool" Nullable="false" />
+          <Property Name="Noter" Type="varchar" MaxLength="5000" />
         </EntityType>
         <Association Name="Kundesager">
           <End Role="Kunder" Type="Self.Kunder" Multiplicity="1">
@@ -194,6 +195,7 @@
           <NavigationProperty Name="Kunder" Relationship="Self.Kundesager" FromRole="Sager" ToRole="Kunder" />
           <NavigationProperty Name="Pladser" Relationship="Self.Sagspladser" FromRole="Sager" ToRole="Pladser" />
           <NavigationProperty Name="Kasser" Relationship="DatabaseModel.Sagskasser" FromRole="Sager" ToRole="Kasser" />
+          <Property Name="Noter" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="Pladsnummer">
           <End Role="Pladser" Type="Self.Pladser" Multiplicity="1">
@@ -340,6 +342,7 @@
           <EntitySetMapping Name="Sager">
             <EntityTypeMapping TypeName="DatabaseModel.Sager">
               <MappingFragment StoreEntitySet="Sager">
+                <ScalarProperty Name="Noter" ColumnName="Noter" />
                 <ScalarProperty Name="Sagsnummer" ColumnName="Sagsnummer" />
                 <ScalarProperty Name="KundeId" ColumnName="KundeId" />
                 <ScalarProperty Name="Opbevaring_startdato" ColumnName="Opbevaring_startdato" />

@@ -90,6 +90,7 @@ namespace Bifald
             int leveretKasser = database.Kasser.Where(k => k.Sagsnummer == sag.Sagsnummer && k.Hentet_leveret.Equals("Leveret")).ToList().Sum(k => (int?)k.Antal ?? 0);
             int hentetKasser = database.Kasser.Where(k => k.Sagsnummer == sag.Sagsnummer && k.Hentet_leveret.Equals("Hentet")).ToList().Sum(k => (int?)k.Antal ?? 0);
             kasserTextbox.Text = (leveretKasser - hentetKasser).ToString();
+            noterTextBlock.Text = sag.Noter;
 
             Kunder kunde = database.Kunder.Find(sag.KundeId);
             kundeTextbox.Text = kunde.Navn;
@@ -123,6 +124,7 @@ namespace Bifald
                 kundeTextbox.IsEnabled = true;
                 startAdresseTextbox.IsEnabled = true;
                 slutAdresseTextbox.IsEnabled = true;
+                noterTextBlock.IsEnabled = true;
 
                 retGemButton.Content = "Gem information";
             }
@@ -134,6 +136,7 @@ namespace Bifald
                 kundeTextbox.IsEnabled = false;
                 startAdresseTextbox.IsEnabled = false;
                 slutAdresseTextbox.IsEnabled = false;
+                noterTextBlock.IsEnabled = false;
 
                 retGemButton.Content = "Ret information";
                 int iteration = pladsnummerComboBox.Items.Count - 1;
@@ -157,6 +160,7 @@ namespace Bifald
                 }
 
                 rettetSag.Opbevaring_startdato = opbevaringFraDatePicker.SelectedDate.Value;
+                rettetSag.Noter = noterTextBlock.Text;
 
                 Kunder kunde = database.Kunder.Find(rettetSag.KundeId);
                 kunde.Navn = kundeTextbox.Text;
@@ -169,7 +173,7 @@ namespace Bifald
 
         private async void AfslutGenoptagButton_Click(object sender, RoutedEventArgs e)
         {
-            var view = new CustomDialog();
+            var view = new StandardDialog();
             if (afslutGenoptagButton.Content.Equals("Afslut sag"))
             {
                 view.label.Content = "Er du sikker på du vil aflutte sagen: " + sag.Sagsnummer + "?";

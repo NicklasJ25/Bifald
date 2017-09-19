@@ -27,6 +27,7 @@ namespace Bifald.DB
         public System.DateTime Opbevaring_startdato { get; set; }
         public Nullable<System.DateTime> Opbevaring_slutdato { get; set; }
         public bool Afsluttet { get; set; }
+        public string Noter { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Afsluttede_pladser> Afsluttede_pladser { get; set; }

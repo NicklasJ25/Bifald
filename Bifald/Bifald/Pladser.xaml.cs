@@ -48,7 +48,7 @@ namespace Bifald
 
         private async void sletPladsButton_Click(object sender, RoutedEventArgs e)
         {
-            var view = new CustomDialog();
+            var view = new StandardDialog();
             if (pladserListView.SelectedItem != null)
             {
                 Pladser plads = (Pladser)pladserListView.SelectedItem;
