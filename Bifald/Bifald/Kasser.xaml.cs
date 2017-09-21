@@ -1,4 +1,6 @@
 ﻿using Bifald.DB;
+using Bifald.Dialog;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -28,7 +30,7 @@ namespace Bifald
             datoDatePicker.SelectedDate = datoDatePicker.DisplayDate;
         }
 
-        private void HentLeverButton_Click(object sender, RoutedEventArgs e)
+        private async void HentLeverButton_Click(object sender, RoutedEventArgs e)
         {
             validering.ValiderHentLeverKasser(sagsnummerComboBox, hentetLeveretComboBox, datoDatePicker.Text, antalTextbox.Text);
 
@@ -54,7 +56,11 @@ namespace Bifald
             }
             else
             {
-                MessageBox.Show(validering.hentLeverKasserValidering);
+                var view = new StandardDialog();
+                view.label.Content = validering.hentLeverKasserValidering;
+                view.cancelButton.Visibility = Visibility.Hidden;
+                view.acceptButton.Content = "Ok";
+                await DialogHost.Show(view, "RootDialog");
             }
         }
 

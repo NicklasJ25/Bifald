@@ -20,9 +20,10 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Sagsnummer" DisplayMemberBinding="{Binding sagsnummer}" />
-                    <GridViewColumn Header="Pladsnumre" DisplayMemberBinding="{Binding pladser}" />
                     <GridViewColumn Header="Kunde" DisplayMemberBinding="{Binding kunde}" />
                     <GridViewColumn Header="Start addresse" DisplayMemberBinding="{Binding adresseFra}" />
+                    <GridViewColumn Header="Antal pladser" DisplayMemberBinding="{Binding antalPladser}" />
+                    <GridViewColumn Header="Antal Lifte" DisplayMemberBinding="{Binding antalLifte}" />
                 </GridView>
             </ListView.View>
         </ListView>

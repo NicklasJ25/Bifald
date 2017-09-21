@@ -16,23 +16,12 @@ namespace Bifald
         DatabaseEntities database = new DatabaseEntities();
         List<string> gamlePladser = new List<string>();
         DB.Sager sag;
-        List<Pladser> pladser = new List<Pladser>();
 
         public Sag()
         {
             InitializeComponent();
             string sagsnummer = (string)Application.Current.Properties["Sagsnummer"];
             sag = database.Sager.Include(s => s.Pladser).SingleOrDefault(s => s.Sagsnummer == sagsnummer);
-            if (sag.Afsluttet == true)
-            {
-                afslutGenoptagButton.Content = "Genoptag sag";
-                retGemButton.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                afslutGenoptagButton.Content = "Afslut sag";
-                retGemButton.Visibility = Visibility.Visible;
-            }
             OpdaterSagsvisning();
         }
 
@@ -43,6 +32,8 @@ namespace Bifald
             if (sag.Afsluttet == true)
             {
                 afsluttetTextbox.Text = "Ja";
+                afsluttetDatoDatePicker.SelectedDate = sag.Opbevaring_slutdato;
+                afslutGenoptagButton.Content = "Genoptag sag";
                 List<Afsluttede_pladser> pladser = database.Afsluttede_pladser.Include(af => af.Pladser).Where(af => af.Sagsnummer == sag.Sagsnummer).ToList();
                 foreach (Afsluttede_pladser plads in pladser)
                 {
@@ -56,10 +47,12 @@ namespace Bifald
                 }
                 afsluttetDatoLabel.Visibility = Visibility.Visible;
                 afsluttetDatoDatePicker.Visibility = Visibility.Visible;
+                retGemButton.Visibility = Visibility.Hidden;
             }
             else
             {
                 afsluttetTextbox.Text = "Nej";
+                afslutGenoptagButton.Content = "Afslut sag";
                 foreach (Pladser plads in sag.Pladser)
                 {
                     pladserTextbox.Text += plads.Pladsnummer + "; ";
@@ -72,8 +65,12 @@ namespace Bifald
                 }
                 afsluttetDatoLabel.Visibility = Visibility.Hidden;
                 afsluttetDatoDatePicker.Visibility = Visibility.Hidden;
+                retGemButton.Visibility = Visibility.Visible;
             }
-            typeTextbox.Text = typeTextbox.Text.Remove(0, 3);
+            if (!string.IsNullOrEmpty(typeTextbox.Text))
+            {
+                typeTextbox.Text = typeTextbox.Text.Remove(0, 3);
+            }
             opbevaringFraDatePicker.SelectedDate = sag.Opbevaring_startdato;
             int leveretKasser = database.Kasser.Where(k => k.Sagsnummer == sag.Sagsnummer && k.Hentet_leveret.Equals("Leveret")).ToList().Sum(k => (int?)k.Antal ?? 0);
             int hentetKasser = database.Kasser.Where(k => k.Sagsnummer == sag.Sagsnummer && k.Hentet_leveret.Equals("Hentet")).ToList().Sum(k => (int?)k.Antal ?? 0);
@@ -91,7 +88,6 @@ namespace Bifald
         {
             if (retGemButton.Content.Equals("Ret information"))
             {
-                fjernPladserButton.Visibility = Visibility.Visible;
                 tilføjPladserButton.Visibility = Visibility.Visible;
                 opbevaringFraDatePicker.IsEnabled = true;
                 kundeTextbox.IsEnabled = true;
@@ -103,7 +99,6 @@ namespace Bifald
             }
             else if (retGemButton.Content.Equals("Gem information"))
             {
-                fjernPladserButton.Visibility = Visibility.Hidden;
                 tilføjPladserButton.Visibility = Visibility.Hidden;
                 opbevaringFraDatePicker.IsEnabled = false;
                 kundeTextbox.IsEnabled = false;
@@ -148,24 +143,26 @@ namespace Bifald
         {
             if ((bool) eventArgs.Parameter)
             {
-                DB.Sager afslutSag = database.Sager.Include(s => s.Pladser).SingleOrDefault(s => s.Sagsnummer == sag.Sagsnummer);
-                List<Pladser> pladser = afslutSag.Pladser.ToList();
-                afslutSag.Afsluttet = true;
-
-                foreach (Pladser plads in pladser)
+                List<Pladser> afslutPladser = sag.Pladser.ToList();
+                foreach (Pladser plads in afslutPladser)
                 {
                     Afsluttede_pladser afsluttetPlads = new Afsluttede_pladser
                     {
-                        Sagsnummer = afslutSag.Sagsnummer,
+                        Sagsnummer = sag.Sagsnummer,
                         Pladsnummer = plads.Pladsnummer
                     };
                     database.Afsluttede_pladser.Add(afsluttetPlads);
                     plads.Sagsnummer = null;
                 }
+                sag.Afsluttet = true;
+                sag.Opbevaring_slutdato = DateTime.Now;
                 database.SaveChanges();
+
                 afsluttetTextbox.Text = "Ja";
+                afsluttetDatoDatePicker.SelectedDate = sag.Opbevaring_slutdato;
                 afslutGenoptagButton.Content = "Genoptag sag";
                 retGemButton.Visibility = Visibility.Hidden;
+                delAfslutButton.Visibility = Visibility.Hidden;
                 afsluttetDatoLabel.Visibility = Visibility.Visible;
                 afsluttetDatoDatePicker.Visibility = Visibility.Visible;
             }
@@ -175,22 +172,34 @@ namespace Bifald
         {
             if ((bool)eventArgs.Parameter)
             {
-                sag = database.Sager.Include(s => s.Pladser).SingleOrDefault(s => s.Sagsnummer == sag.Sagsnummer);
                 sag.Afsluttet = false;
 
+                string existsInOpenCase = "";
                 List<Afsluttede_pladser> afsluttedePladser = database.Afsluttede_pladser.Where(afs => afs.Sagsnummer == sag.Sagsnummer).ToList();
                 foreach (Afsluttede_pladser afsluttetPlads in afsluttedePladser)
                 {
                     Pladser plads = database.Pladser.Find(afsluttetPlads.Pladsnummer);
-                    plads.Sagsnummer = afsluttetPlads.Sagsnummer;
-                    database.Afsluttede_pladser.Remove(afsluttetPlads);
+                    if (string.IsNullOrEmpty(plads.Sagsnummer))
+                    {
+                        plads.Sagsnummer = afsluttetPlads.Sagsnummer;
+                        database.Afsluttede_pladser.Remove(afsluttetPlads);
+                    }
+                    else
+                    {
+                        existsInOpenCase += plads.Pladsnummer;
+                    }
                 }
                 database.SaveChanges();
                 afsluttetTextbox.Text = "Nej";
                 afslutGenoptagButton.Content = "Afslut sag";
                 retGemButton.Visibility = Visibility.Visible;
+                delAfslutButton.Visibility = Visibility.Visible;
                 afsluttetDatoLabel.Visibility = Visibility.Hidden;
                 afsluttetDatoDatePicker.Visibility = Visibility.Hidden;
+                if (existsInOpenCase != "")
+                {
+                    MessageBox.Show("En eller flere pladser bliver brugt i en åben sag:\n" + existsInOpenCase);
+                }
             }
         }
 
@@ -208,7 +217,10 @@ namespace Bifald
                 Pladser[] pladser = database.Pladser.Where(p => string.IsNullOrEmpty(p.Sagsnummer)).ToArray();
                 foreach (Pladser plads in pladser)
                 {
-                    view.listView.Items.Add(plads.Pladsnummer);
+                    if (!sag.Pladser.Contains(plads))
+                    {
+                        view.listView.Items.Add(plads.Pladsnummer);
+                    }
                 }
             }
             else
@@ -216,7 +228,7 @@ namespace Bifald
                 view.label.Content = "Vælg de pladser/lifte der skal fjernes fra sagen";
                 view.acceptButton.Content = "Fjern";
 
-                foreach (Pladser plads in pladser)
+                foreach (Pladser plads in sag.Pladser)
                 {
                     view.listView.Items.Add(plads.Pladsnummer);
                 }
@@ -230,32 +242,55 @@ namespace Bifald
             if (!eventArgs.IsCancelled)
             {
                 DialogHost dialogHost = sender as DialogHost;
-                ListDialog listDialog = dialogHost.Content as ListDialog;
+                ListDialog listDialog = dialogHost.DialogContent as ListDialog;
                 if (listDialog.acceptButton.Content.Equals("Tilføj"))
                 {
                     foreach (String selectedItem in listDialog.listView.SelectedItems)
                     {
                         Pladser plads = database.Pladser.SingleOrDefault(p => p.Pladsnummer == selectedItem);
-                        pladser.Add(plads);
+                        sag.Pladser.Add(plads);
                     }
+                    database.SaveChanges();
                 }
                 else
                 {
                     foreach (String selectedItem in listDialog.listView.SelectedItems)
                     {
-                        Pladser plads = pladser.SingleOrDefault(p => p.Pladsnummer == selectedItem);
-                        pladser.Remove(plads);
+                        Pladser plads = sag.Pladser.SingleOrDefault(p => p.Pladsnummer == selectedItem);
+                        sag.Pladser.Remove(plads);
+                        Afsluttede_pladser afsluttetPlads = new Afsluttede_pladser
+                        {
+                            Sagsnummer = sag.Sagsnummer,
+                            Pladsnummer = plads.Pladsnummer
+                        };
+                        database.Afsluttede_pladser.Add(afsluttetPlads);
+                        plads.Sagsnummer = null;
                     }
+                    database.SaveChanges();
                 }
 
-                foreach (Pladser plads in pladser)
+                pladserTextbox.Text = "";
+                sag.Pladser = sag.Pladser.OrderBy(p => p.Pladsnummer).ToList();
+                foreach (Pladser plads in sag.Pladser)
                 {
                     pladserTextbox.Text += plads.Pladsnummer + "; ";
                 }
-
-                pladserTextbox.Text.Remove(pladserTextbox.Text.Length - 2);
+                if (pladserTextbox.Text.Length != 0)
+                {
+                    pladserTextbox.Text = pladserTextbox.Text.Remove(pladserTextbox.Text.Length - 2);
+                }
             }
         }
+        private void UdskrivSagButton_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog printDialog = new PrintDialog();
+
+            if (printDialog.ShowDialog() == true)
+            {
+                printDialog.PrintVisual(this, "Print");
+            }
+        }
+
 
         private void TilbageButton_Click(object sender, RoutedEventArgs e)
         {

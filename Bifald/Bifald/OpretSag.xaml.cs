@@ -133,6 +133,7 @@ namespace Bifald
                 }
 
                 pladserTextbox.Text = "";
+                pladser = pladser.OrderBy(p => p.Pladsnummer).ToList();
                 foreach (Pladser plads in pladser)
                 {
                     pladserTextbox.Text += plads.Pladsnummer + "; ";

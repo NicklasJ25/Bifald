@@ -3,40 +3,50 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:system="clr-namespace:System;assembly=mscorlib"
-      xmlns:local="clr-namespace:Bifald"
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="1040"
       Title="Sag">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="520*"/>
+            <ColumnDefinition Width="520*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="130*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="250*"/>
+        </Grid.RowDefinitions>
         <Label x:Name="sagsnummerLabel" Content="Sagsnummer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,50,0,0" Width="150" FontSize="16"/>
         <TextBox x:Name="sagsnummerTextbox" HorizontalAlignment="Left" Height="33" Margin="175,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False"/>
-        <Label x:Name="pladsnummerLabel" Content="Pladsnummer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,130,0,0" Width="150" FontSize="16"/>
-        <Label x:Name="opbevaringFraLabel" Content="Opbevaring fra" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,370,0,0" Width="150" FontSize="16"/>
-        <DatePicker x:Name="opbevaringFraDatePicker" HorizontalAlignment="Left" Margin="175,370,0,0" VerticalAlignment="Top" Width="269" Height="33" FirstDayOfWeek="Monday" FontSize="16" IsEnabled="False"/>
-        <Label x:Name="afsluttetLabel" Content="Afsluttet" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,290,0,0" Width="150" FontSize="16"/>
-        <TextBox x:Name="afsluttetTextbox" HorizontalAlignment="Left" Height="33" Margin="665,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False"/>
-        <Label x:Name="typeLabel" Content="Type" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,210,0,0" Width="150" FontSize="16"/>
-        <TextBox x:Name="typeTextbox" HorizontalAlignment="Left" Height="33" Margin="175,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False"/>
-        <Label x:Name="kasserLabel" Content="Kasser" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,290,0,0" Width="150" FontSize="16"/>
-        <TextBox x:Name="kasserTextbox" HorizontalAlignment="Left" Height="33" Margin="175,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False"/>
-        <Label x:Name="kundeLabel" Content="Kunde" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,50,0,0" Width="150" FontSize="16"/>
-        <TextBox x:Name="kundeTextbox" HorizontalAlignment="Left" Height="33" Margin="665,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False"/>
-        <Label x:Name="startAddresseLabel" Content="Start addresse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,130,0,0" Width="150" FontSize="16"/>
-        <TextBox x:Name="startAdresseTextbox" HorizontalAlignment="Left" Height="33" Margin="665,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False"/>
-        <Label x:Name="slutAddresseLabel" Content="Slut addresse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,210,0,0" Width="150" FontSize="16"/>
-        <TextBox x:Name="slutAdresseTextbox" HorizontalAlignment="Left" Height="33" Margin="665,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False"/>
-        <Label x:Name="noterLabel" Content="Noter" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,450,0,0" Width="150" FontSize="16"/>
-        <Button x:Name="tilbageButton" Content="Tilbage" Tag="Forside.xaml" HorizontalAlignment="Left" Width="150" Margin="20,0,0,19.927" Height="50" FontSize="16" Click="TilbageButton_Click" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
-        <Button x:Name="retGemButton" Content="Ret information" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="160" Margin="0,0,195.291,19.927" Height="50" FontSize="16" IsDefault="True" Click="RetGemButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
-        <Button x:Name="afslutGenoptagButton" HorizontalAlignment="Right" Width="150" Margin="0,0,20.291,19.927" Height="50" FontSize="16" IsDefault="True" Click="AfslutGenoptagButton_Click" VerticalAlignment="Bottom" Content="Afslut/genoptag" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
-        <Label x:Name="afsluttetDatoLabel" Content="Afsluttet dato" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,370,0,0" Width="150" FontSize="16"/>
-        <DatePicker x:Name="afsluttetDatoDatePicker" HorizontalAlignment="Left" Margin="665,370,0,0" VerticalAlignment="Top" Width="269" Height="33" FirstDayOfWeek="Monday" FontSize="16" IsEnabled="False"/>
-        <TextBox x:Name="pladserTextbox" HorizontalAlignment="Left" Margin="175,130,0,536.927" Width="269" FontSize="16" IsReadOnly="True"/>
-        <TextBox x:Name="noterTextbox" HorizontalAlignment="Left" Margin="175,450,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" AcceptsReturn="True" IsEnabled="False"/>
-        <Button x:Name="tilføjPladserButton" Content="Tilføj pladser" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="319,168,0,0" Height="30" FontSize="16" Click="TilføjFjernPladserButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}" Visibility="Hidden"/>
-        <Button x:Name="fjernPladserButton" Content="Fjern pladser" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="175,168,0,0" Height="30" FontSize="16" Click="TilføjFjernPladserButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}" Visibility="Hidden"/>
+        <Label x:Name="pladsnummerLabel" Content="Pladsnummer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,0,0,0" Width="150" FontSize="16" Grid.Row="1"/>
+        <TextBox x:Name="pladserTextbox" HorizontalAlignment="Left" Margin="175,0,0,47" Width="269" FontSize="16" TextWrapping="Wrap" MinHeight="33" Grid.Row="1" IsEnabled="False"/>
+        <Button x:Name="tilføjPladserButton" Content="Tilføj pladser" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="125" Margin="319,0,0,7" Height="30" FontSize="16" Click="TilføjFjernPladserButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Row="1"/>
+        <Label x:Name="typeLabel" Content="Type" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,0,0,0" Width="150" FontSize="16" Grid.Row="2"/>
+        <TextBox x:Name="typeTextbox" HorizontalAlignment="Left" Height="33" Margin="175,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False" Grid.Row="2"/>
+        <Label x:Name="kasserLabel" Content="Kasser" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,0,0,0" Width="150" FontSize="16" Grid.Row="3"/>
+        <TextBox x:Name="kasserTextbox" HorizontalAlignment="Left" Height="33" Margin="175,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False" Grid.Row="3"/>
+        <Label x:Name="opbevaringFraLabel" Content="Opbevaring fra" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,0,0,0" Width="150" FontSize="16" Grid.Row="4"/>
+        <DatePicker x:Name="opbevaringFraDatePicker" HorizontalAlignment="Left" Margin="175,0,0,0" VerticalAlignment="Top" Width="269" Height="33" FirstDayOfWeek="Monday" FontSize="16" IsEnabled="False" Grid.Row="4"/>
+        <Label x:Name="noterLabel" Content="Noter" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,0.364,0,0" Width="150" FontSize="16" Grid.Row="5"/>
+        <TextBox x:Name="noterTextbox" HorizontalAlignment="Left" Margin="175,0.364,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" AcceptsReturn="True" IsEnabled="False" MinHeight="33" Grid.Row="5"/>
+        <Label x:Name="kundeLabel" Content="Kunde" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,50,0,0" Width="150" FontSize="16" Grid.Column="1"/>
+        <TextBox x:Name="kundeTextbox" HorizontalAlignment="Left" Height="33" Margin="186,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False" Grid.Column="1"/>
+        <Label x:Name="startAddresseLabel" Content="Start addresse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,0,0,0" Width="150" FontSize="16" Grid.Row="1" Grid.Column="1"/>
+        <TextBox x:Name="startAdresseTextbox" HorizontalAlignment="Left" Height="33" Margin="186,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False" Grid.Row="1" Grid.Column="1"/>
+        <Label x:Name="slutAddresseLabel" Content="Slut addresse" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,0,0,0" Width="150" FontSize="16" Grid.Row="2" Grid.Column="1"/>
+        <TextBox x:Name="slutAdresseTextbox" HorizontalAlignment="Left" Height="33" Margin="186,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False" Grid.Row="2" Grid.Column="1"/>
+        <Label x:Name="afsluttetLabel" Content="Afsluttet" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,0,0,0" Width="150" FontSize="16" Grid.Row="3" Grid.Column="1"/>
+        <TextBox x:Name="afsluttetTextbox" HorizontalAlignment="Left" Height="33" Margin="186,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="269" FontSize="16" IsEnabled="False" Grid.Row="3" Grid.Column="1"/>
+        <Label x:Name="afsluttetDatoLabel" Content="Afsluttet dato" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,17,0,0" Width="150" FontSize="16" Visibility="Hidden" Grid.Row="4" Grid.Column="1"/>
+        <DatePicker x:Name="afsluttetDatoDatePicker" HorizontalAlignment="Left" Margin="186,17,0,0" VerticalAlignment="Top" Width="269" Height="33" FirstDayOfWeek="Monday" FontSize="16" IsEnabled="False" Visibility="Hidden" Grid.Row="4" Grid.Column="1"/>
+        <Button x:Name="tilbageButton" Content="Tilbage" Tag="Forside.xaml" HorizontalAlignment="Left" Width="150" Margin="20,0,0,20" Height="50" FontSize="16" Click="TilbageButton_Click" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Row="5"/>
+        <Button x:Name="retGemButton" Content="Ret information" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="160" Margin="0,0,360,20" Height="50" FontSize="16" IsDefault="True" Click="RetGemButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Row="5" Grid.Column="1"/>
+        <Button x:Name="delAfslutButton" HorizontalAlignment="Right" Width="150" Margin="0,0,190,20" Height="50" FontSize="16" IsDefault="True" Click="TilføjFjernPladserButton_Click" VerticalAlignment="Bottom" Content="Del afslut" Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Row="5" Grid.Column="1"/>
+        <Button x:Name="afslutGenoptagButton" HorizontalAlignment="Right" Width="150" Margin="0,0,20,20" Height="50" FontSize="16" IsDefault="True" Click="AfslutGenoptagButton_Click" VerticalAlignment="Bottom" Content="Afslut/genoptag" Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Row="5" Grid.Column="1"/>
+        <Button x:Name="udskrivSagButton" Content="Udskriv sag" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150" Margin="0,0,20,90" Height="50" FontSize="16" IsDefault="True" Click="UdskrivSagButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Row="5" Grid.Column="1"/>
     </Grid>
 </Page>

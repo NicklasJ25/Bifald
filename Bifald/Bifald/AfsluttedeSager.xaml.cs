@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using System.Data.Entity;
+using Bifald.Dialog;
+using MaterialDesignThemes.Wpf;
 
 namespace Bifald
 {
@@ -27,26 +29,27 @@ namespace Bifald
 
         private void opdaterListe(List<DB.Sager> sager)
         {
-            List<SagerJoin> liste = new List<SagerJoin>();
+            List<SagerListsViewModel> liste = new List<SagerListsViewModel>();
 
             foreach (DB.Sager sag in sager)
             {
-                List<Pladser> pladser = database.Pladser.Where(p => p.Sagsnummer == sag.Sagsnummer).ToList();
+                List<Afsluttede_pladser> pladser = database.Afsluttede_pladser.Include(ap => ap.Pladser).Where(p => p.Sagsnummer == sag.Sagsnummer).ToList();
                 string pladsnumre = string.Join("; ", pladser.Select(p => p.Pladsnummer));
                 Kunder kunde = database.Kunder.Find(sag.KundeId);
-                liste.Add(new SagerJoin
+                liste.Add(new SagerListsViewModel
                 {
                     sagsnummer = sag.Sagsnummer,
-                    pladser = pladsnumre,
                     kunde = kunde.Navn,
-                    adresseFra = kunde.Adresse_fra
+                    adresseFra = kunde.Adresse_fra,
+                    antalPladser = pladser.Count(p => p.Pladser.Type == "Plads"),
+                    antalLifte = pladser.Count(p => p.Pladser.Type == "Lift")
                 });
             }
 
             sagerListView.ItemsSource = liste;
         }
 
-        private void søgButton_Click(object sender, RoutedEventArgs e)
+        private async void søgButton_Click(object sender, RoutedEventArgs e)
         {
             validering.ValiderSøgSager(sagsnummerTextbox.Text, pladsnummerTextbox.Text, kundeTextbox.Text, true);
 
@@ -91,7 +94,11 @@ namespace Bifald
             }
             else
             {
-                MessageBox.Show(validering.søgPladserValidering);
+                var view = new StandardDialog();
+                view.label.Content = validering.søgPladserValidering;
+                view.cancelButton.Visibility = Visibility.Hidden;
+                view.acceptButton.Content = "Ok";
+                await DialogHost.Show(view, "RootDialog");
             }
         }
 
@@ -99,7 +106,7 @@ namespace Bifald
         {
             if (sagerListView.SelectedItem != null)
             {
-                SagerJoin sagerJoin = (SagerJoin)sagerListView.SelectedItem;
+                SagerListsViewModel sagerJoin = (SagerListsViewModel)sagerListView.SelectedItem;
                 Application.Current.Properties["Sagsnummer"] = sagerJoin.sagsnummer;
                 Application.Current.Properties["FørSag"] = "AfsluttedeSager.xaml";
 

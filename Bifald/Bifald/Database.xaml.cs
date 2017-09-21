@@ -1,4 +1,6 @@
 ﻿using Bifald.DB;
+using Bifald.Dialog;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using System;
@@ -19,7 +21,7 @@ namespace Bifald
             InitializeComponent();
         }
 
-        private void backupButton_Click(object sender, RoutedEventArgs e)
+        private async void backupButton_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog()
             {
@@ -45,11 +47,15 @@ namespace Bifald
                         }
                     }
                 }
-                MessageBox.Show("En backup af databasen er nu oprettet");
+                var view = new StandardDialog();
+                view.label.Content = "En backup af databasen er nu oprettet";
+                view.cancelButton.Visibility = Visibility.Hidden;
+                view.acceptButton.Content = "Ok";
+                await DialogHost.Show(view, "RootDialog");
             }
         }
 
-        private void genskabButton_Click(object sender, RoutedEventArgs e)
+        private async void genskabButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
@@ -60,7 +66,7 @@ namespace Bifald
 
             if (!openFileDialog.FileName.Equals(""))
             {
-                if (MessageBox.Show("Er du sikker på du vil genskabbe denne database?", "Genskab database", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Er du sikker på du vil genskabe denne database?", "Genskab database", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     try
                     {
@@ -80,11 +86,19 @@ namespace Bifald
                                 }
                             }
                         }
-                        MessageBox.Show("Database er nu genskabt");
+                        var view = new StandardDialog();
+                        view.label.Content = "Database er nu genskabt";
+                        view.cancelButton.Visibility = Visibility.Hidden;
+                        view.acceptButton.Content = "Ok";
+                        await DialogHost.Show(view, "RootDialog");
                     }
                     catch (FileNotFoundException fnfe)
                     {
-                        MessageBox.Show("Filen " + fnfe.FileName + " blev ikke fundet");
+                        var view = new StandardDialog();
+                        view.label.Content = "Filen " + fnfe.FileName + " blev ikke fundet";
+                        view.cancelButton.Visibility = Visibility.Hidden;
+                        view.acceptButton.Content = "Ok";
+                        await DialogHost.Show(view, "RootDialog");
                     }
                 }
             }
