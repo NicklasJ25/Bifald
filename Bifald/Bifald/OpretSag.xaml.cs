@@ -25,7 +25,7 @@ namespace Bifald
             opbevaringFraDatePicker.SelectedDate = opbevaringFraDatePicker.DisplayDate;
         }
 
-        private void opretSagButton_Click(object sender, RoutedEventArgs e)
+        private async void opretSagButton_Click(object sender, RoutedEventArgs e)
         {
             validering.ValiderOpretSag(sagsnummerTextbox.Text, kundeTextbox.Text, pladser, 
                 startAddresseTextbox.Text, slutAddresseTextbox.Text, kasserTextbox.Text);
@@ -39,7 +39,11 @@ namespace Bifald
             }
             else
             {
-                MessageBox.Show(validering.opretSagValidering);
+                var view = new StandardDialog();
+                view.label.Content = validering.opretSagValidering;
+                view.cancelButton.Visibility = Visibility.Hidden;
+                view.acceptButton.Content = "Ok";
+                await DialogHost.Show(view, "RootDialog");
             }
         }
 
@@ -68,11 +72,7 @@ namespace Bifald
 
             database.SaveChanges();
 
-            sagsnummerTextbox.Text = null;
-            kundeTextbox.Text = null;
-            startAddresseTextbox.Text = null;
-            slutAddresseTextbox.Text = null;
-            kasserTextbox.Text = null;
+            NavigationService.Navigate(new Sager());
         }
 
         private async void TilføjFjernPladserButton_Click(object sender, RoutedEventArgs e)

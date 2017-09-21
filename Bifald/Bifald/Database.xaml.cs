@@ -15,6 +15,9 @@ namespace Bifald
     public partial class Database : Page
     {
         DatabaseEntities database = new DatabaseEntities();
+        OpenFileDialog openFileDialog;
+
+        bool backupGenskabt = false;
 
         public Database()
         {
@@ -57,7 +60,7 @@ namespace Bifald
 
         private async void genskabButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog()
+            openFileDialog = new OpenFileDialog()
             {
                 DefaultExt = "sql",
                 Filter = "Database backups (*.sql)|*.sql|All files (*.*)|*.*"
@@ -66,40 +69,54 @@ namespace Bifald
 
             if (!openFileDialog.FileName.Equals(""))
             {
-                if (MessageBox.Show("Er du sikker på du vil genskabe denne database?", "Genskab database", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                StandardDialog view = new StandardDialog();
+                view.label.Content = "Er du sikker på du vil genskabe denne database?";
+                view.cancelButton.Content = "Nej";
+                view.acceptButton.Content = "Ja";
+                await DialogHost.Show(view, "RootDialog", GenskabClosingEventHandler);
+                if (backupGenskabt)
                 {
-                    try
-                    {
+                    view.label.Content = "Database er nu genskabt";
+                    view.cancelButton.Visibility = Visibility.Hidden;
+                    view.acceptButton.Content = "Ok";
+                    await DialogHost.Show(view, "RootDialog");
+                }
+                else
+                {
+                    view.label.Content = "Filen " + openFileDialog.FileName + " blev ikke fundet";
+                    view.cancelButton.Visibility = Visibility.Hidden;
+                    view.acceptButton.Content = "Ok";
+                    await DialogHost.Show(view, "RootDialog");
+                }
+            }
+        }
 
-                        string constring = "server=localhost;user id=root;password=root;persistsecurityinfo=True;database=bifald";
-                        string file = openFileDialog.FileName;
-                        using (MySqlConnection conn = new MySqlConnection(constring))
+        private void GenskabClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (!eventArgs.IsCancelled)
+            {
+                try
+                {
+                    string constring = "server=localhost;user id=root;password=root;persistsecurityinfo=True;database=bifald";
+                    string file = openFileDialog.FileName;
+                    using (MySqlConnection conn = new MySqlConnection(constring))
+                    {
+                        using (MySqlCommand cmd = new MySqlCommand())
                         {
-                            using (MySqlCommand cmd = new MySqlCommand())
+                            using (MySqlBackup mb = new MySqlBackup(cmd))
                             {
-                                using (MySqlBackup mb = new MySqlBackup(cmd))
-                                {
-                                    cmd.Connection = conn;
-                                    conn.Open();
-                                    mb.ImportFromFile(file);
-                                    conn.Close();
-                                }
+                                cmd.Connection = conn;
+                                conn.Open();
+                                mb.ImportFromFile(file);
+                                conn.Close();
                             }
                         }
-                        var view = new StandardDialog();
-                        view.label.Content = "Database er nu genskabt";
-                        view.cancelButton.Visibility = Visibility.Hidden;
-                        view.acceptButton.Content = "Ok";
-                        await DialogHost.Show(view, "RootDialog");
                     }
-                    catch (FileNotFoundException fnfe)
-                    {
-                        var view = new StandardDialog();
-                        view.label.Content = "Filen " + fnfe.FileName + " blev ikke fundet";
-                        view.cancelButton.Visibility = Visibility.Hidden;
-                        view.acceptButton.Content = "Ok";
-                        await DialogHost.Show(view, "RootDialog");
-                    }
+                    backupGenskabt = true;
+                }
+                catch (FileNotFoundException)
+                {
+                    backupGenskabt = false;
                 }
             }
         }

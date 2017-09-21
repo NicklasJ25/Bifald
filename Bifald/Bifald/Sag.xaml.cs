@@ -16,6 +16,7 @@ namespace Bifald
         DatabaseEntities database = new DatabaseEntities();
         List<string> gamlePladser = new List<string>();
         DB.Sager sag;
+        string existsInOpenCase;
 
         public Sag()
         {
@@ -136,6 +137,13 @@ namespace Bifald
                 view.label.Content = "Er du sikker på du vil genoptage sagen: " + sag.Sagsnummer + "?";
 
                 await DialogHost.Show(view, "RootDialog", GenoptagClosingEventHandler);
+                if (existsInOpenCase != "")
+                {
+                    view.label.Content = "En eller flere pladser bliver brugt i en åben sag:\n" + existsInOpenCase;
+                    view.cancelButton.Visibility = Visibility.Hidden;
+                    view.acceptButton.Content = "Ok";
+                    await DialogHost.Show(view, "RootDialog");
+                }
             }
         }
 
@@ -174,7 +182,7 @@ namespace Bifald
             {
                 sag.Afsluttet = false;
 
-                string existsInOpenCase = "";
+                existsInOpenCase = "";
                 List<Afsluttede_pladser> afsluttedePladser = database.Afsluttede_pladser.Where(afs => afs.Sagsnummer == sag.Sagsnummer).ToList();
                 foreach (Afsluttede_pladser afsluttetPlads in afsluttedePladser)
                 {
@@ -196,10 +204,10 @@ namespace Bifald
                 delAfslutButton.Visibility = Visibility.Visible;
                 afsluttetDatoLabel.Visibility = Visibility.Hidden;
                 afsluttetDatoDatePicker.Visibility = Visibility.Hidden;
-                if (existsInOpenCase != "")
-                {
-                    MessageBox.Show("En eller flere pladser bliver brugt i en åben sag:\n" + existsInOpenCase);
-                }
+                //if (existsInOpenCase != "")
+                //{
+                //    MessageBox.Show("En eller flere pladser bliver brugt i en åben sag:\n" + existsInOpenCase);
+                //}
             }
         }
 
