@@ -34,7 +34,7 @@ namespace Bifald
                 afsluttetTextbox.Text = "Ja";
                 afsluttetDatoDatePicker.SelectedDate = sag.Opbevaring_slutdato;
                 afslutGenoptagButton.Content = "Genoptag sag";
-                List<Afsluttede_pladser> pladser = database.Afsluttede_pladser.Include(af => af.Pladser).Where(af => af.Sagsnummer == sag.Sagsnummer).ToList();
+                List<Afsluttede_pladser> pladser = database.Afsluttede_pladser.Include(ap => ap.Pladser).Where(ap => ap.Sagsnummer == sag.Sagsnummer).OrderBy(ap => ap.Pladsnummer).ToList();
                 foreach (Afsluttede_pladser plads in pladser)
                 {
                     pladserTextbox.Text += plads.Pladsnummer + "; ";
@@ -53,7 +53,7 @@ namespace Bifald
             {
                 afsluttetTextbox.Text = "Nej";
                 afslutGenoptagButton.Content = "Afslut sag";
-                foreach (Pladser plads in sag.Pladser)
+                foreach (Pladser plads in sag.Pladser.OrderBy(p => p.Pladsnummer))
                 {
                     pladserTextbox.Text += plads.Pladsnummer + "; ";
                     pladserTextbox.Text.Remove(pladserTextbox.Text.Length - 2);
