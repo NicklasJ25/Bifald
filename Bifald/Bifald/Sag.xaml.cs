@@ -28,6 +28,9 @@ namespace Bifald
 
         private void OpdaterSagsvisning()
         {
+            typeTextbox.Text = "";
+            pladserTextbox.Text = "";
+
             sagsnummerTextbox.Text = sag.Sagsnummer;
 
             if (sag.Afsluttet == true)
@@ -39,7 +42,6 @@ namespace Bifald
                 foreach (Afsluttede_pladser plads in pladser)
                 {
                     pladserTextbox.Text += plads.Pladsnummer + "; ";
-                    pladserTextbox.Text.Remove(pladserTextbox.Text.Length - 2);
 
                     if (!typeTextbox.Text.Contains(plads.Pladser.Type))
                     {
@@ -49,6 +51,7 @@ namespace Bifald
                 afsluttetDatoLabel.Visibility = Visibility.Visible;
                 afsluttetDatoDatePicker.Visibility = Visibility.Visible;
                 retGemButton.Visibility = Visibility.Hidden;
+                delAfslutButton.Visibility = Visibility.Hidden;
             }
             else
             {
@@ -57,7 +60,6 @@ namespace Bifald
                 foreach (Pladser plads in sag.Pladser.OrderBy(p => p.Pladsnummer))
                 {
                     pladserTextbox.Text += plads.Pladsnummer + "; ";
-                    pladserTextbox.Text.Remove(pladserTextbox.Text.Length - 2);
 
                     if (!typeTextbox.Text.Contains(plads.Type))
                     {
@@ -67,10 +69,12 @@ namespace Bifald
                 afsluttetDatoLabel.Visibility = Visibility.Hidden;
                 afsluttetDatoDatePicker.Visibility = Visibility.Hidden;
                 retGemButton.Visibility = Visibility.Visible;
+                delAfslutButton.Visibility = Visibility.Visible;
             }
             if (!string.IsNullOrEmpty(typeTextbox.Text))
             {
                 typeTextbox.Text = typeTextbox.Text.Remove(0, 3);
+                pladserTextbox.Text = pladserTextbox.Text.Remove(pladserTextbox.Text.Length - 2);
             }
             opbevaringFraDatePicker.SelectedDate = sag.Opbevaring_startdato;
             int leveretKasser = database.Kasser.Where(k => k.Sagsnummer == sag.Sagsnummer && k.Hentet_leveret.Equals("Leveret")).ToList().Sum(k => (int?)k.Antal ?? 0);
@@ -145,6 +149,7 @@ namespace Bifald
                     await DialogHost.Show(view, "RootDialog");
                 }
             }
+            OpdaterSagsvisning();
         }
 
         private void AfslutClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
@@ -165,14 +170,6 @@ namespace Bifald
                 sag.Afsluttet = true;
                 sag.Opbevaring_slutdato = DateTime.Now;
                 database.SaveChanges();
-
-                afsluttetTextbox.Text = "Ja";
-                afsluttetDatoDatePicker.SelectedDate = sag.Opbevaring_slutdato;
-                afslutGenoptagButton.Content = "Genoptag sag";
-                retGemButton.Visibility = Visibility.Hidden;
-                delAfslutButton.Visibility = Visibility.Hidden;
-                afsluttetDatoLabel.Visibility = Visibility.Visible;
-                afsluttetDatoDatePicker.Visibility = Visibility.Visible;
             }
         }
 
@@ -230,7 +227,7 @@ namespace Bifald
             else
             {
                 view.label.Content = "Vælg de pladser/lifte der skal fjernes fra sagen";
-                view.acceptButton.Content = "Fjern";
+                view.acceptButton.Content = "Del afslut";
 
                 foreach (Pladser plads in sag.Pladser)
                 {

@@ -6,22 +6,26 @@
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:Bifald.Dialog"
-             mc:Ignorable="d" d:DesignWidth="200" Height="80">
+             mc:Ignorable="d" d:DesignWidth="200">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="9*"/>
             <ColumnDefinition Width="11*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="label" Content="Label" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" Margin="8" Grid.ColumnSpan="2" FontSize="16"/>
-        <Button x:Name="cancelButton" IsCancel="True" Margin="8,0,0,8" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+        <Label x:Name="label" Content="Label" HorizontalContentAlignment="Center" Margin="8,8,8,4" Grid.ColumnSpan="2" FontSize="16" MinHeight="33"/>
+        <Button x:Name="cancelButton" IsCancel="True" Margin="8,0,0,7.764" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" HorizontalAlignment="Left" Grid.Row="1" Height="33" VerticalAlignment="Bottom">
             <Button.CommandParameter>
                 <system:Boolean>False</system:Boolean>
             </Button.CommandParameter>
             Nej
         </Button>
         <Button x:Name="acceptButton" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Margin="0,0,8,8" HorizontalAlignment="Right" Grid.Column="1">
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" HorizontalContentAlignment="Center" Margin="0,0,8,8" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1" Height="33" VerticalAlignment="Bottom">
             <Button.CommandParameter>
                 <system:Boolean>True</system:Boolean>
             </Button.CommandParameter>
