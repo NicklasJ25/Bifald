@@ -69,6 +69,17 @@ namespace Bifald
                         Noter = noterTextbox.Text
                     }}
             });
+            foreach (Pladser plads in pladser)
+            {
+                Plads_historik plads_Historik = new Plads_historik
+                {
+                    Sagsnummer = sagsnummerTextbox.Text,
+                    Pladsnummer = plads.Pladsnummer,
+                    Opret_afslut = "Oprettet",
+                    Dato = DateTime.Now
+                };
+                database.Plads_historik.Add(plads_Historik);
+            }
 
             database.SaveChanges();
 

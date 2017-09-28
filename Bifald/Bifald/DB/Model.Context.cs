@@ -30,5 +30,6 @@ namespace Bifald.DB
         public virtual DbSet<Pladser> Pladser { get; set; }
         public virtual DbSet<Sager> Sager { get; set; }
         public virtual DbSet<Kasser> Kasser { get; set; }
+        public virtual DbSet<Plads_historik> Plads_historik { get; set; }
     }
 }

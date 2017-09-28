@@ -134,8 +134,14 @@
     <Compile Include="DB\Pladser.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DB\Plads_historik.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB\Sager.cs">
       <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\PladsHistorikDialog.xaml.cs">
+      <DependentUpon>PladsHistorikDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialog\ListDialog.xaml.cs">
       <DependentUpon>ListDialog.xaml</DependentUpon>
@@ -146,6 +152,7 @@
     <Compile Include="Forside.xaml.cs">
       <DependentUpon>Forside.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\PladsHistorikJoin.cs" />
     <Compile Include="Model\SagerJoin.cs" />
     <Compile Include="Model\Validering.cs" />
     <Compile Include="Sag.xaml.cs">
@@ -162,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Dialog\PladsHistorikDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialog\ListDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -174,7 +185,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="HentetLeveretKasser.xaml">
+    <Page Include="KasseHistorik.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -190,8 +201,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HentetLeveretKasser.xaml.cs">
-      <DependentUpon>HentetLeveretKasser.xaml</DependentUpon>
+    <Compile Include="KasseHistorik.xaml.cs">
+      <DependentUpon>KasseHistorik.xaml</DependentUpon>
     </Compile>
     <Compile Include="Kasser.xaml.cs">
       <DependentUpon>Kasser.xaml</DependentUpon>

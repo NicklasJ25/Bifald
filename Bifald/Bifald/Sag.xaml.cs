@@ -204,10 +204,6 @@ namespace Bifald
                 delAfslutButton.Visibility = Visibility.Visible;
                 afsluttetDatoLabel.Visibility = Visibility.Hidden;
                 afsluttetDatoDatePicker.Visibility = Visibility.Hidden;
-                //if (existsInOpenCase != "")
-                //{
-                //    MessageBox.Show("En eller flere pladser bliver brugt i en åben sag:\n" + existsInOpenCase);
-                //}
             }
         }
 
@@ -305,6 +301,39 @@ namespace Bifald
             NavigationService ns = NavigationService.GetNavigationService(this);
             Button knap = sender as Button;
             ns.Navigate(new Uri((string)Application.Current.Properties["FørSag"], UriKind.Relative));
+        }
+
+        private async void PladsHistorikButton_Click(object sender, RoutedEventArgs e)
+        {
+            var pladsHistorik = database.Plads_historik
+                            .Where(ph => ph.Sagsnummer == sag.Sagsnummer)
+                            .OrderBy(ph => ph.Dato)
+                            .GroupBy(ph => new { ph.Opret_afslut, ph.Dato })
+                            .ToList();
+
+            PladsHistorikDialog dialog = new PladsHistorikDialog();
+            dialog.label.Content = "Plads historik";
+
+            foreach (var group in pladsHistorik)
+            {
+                string pladsJoin = "";
+                foreach(Plads_historik plads in group)
+                {
+                    pladsJoin += "; " + plads.Pladsnummer;
+                }
+                pladsJoin = pladsJoin.Remove(0, 2);
+                PladsHistorikJoin pladsHistorikJoin = new PladsHistorikJoin
+                {
+                    Pladser = pladsJoin,
+                    Opret_afslut = group.Key.Opret_afslut,
+                    Dato = group.Key.Dato
+                };
+                dialog.listView.Items.Add(pladsHistorikJoin);
+            }
+            dialog.cancelButton.Visibility = Visibility.Hidden;
+            dialog.acceptButton.Content = "OK";
+
+            await DialogHost.Show(dialog, "RootDialog");
         }
     }
 }

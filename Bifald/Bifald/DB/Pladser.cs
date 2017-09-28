@@ -18,6 +18,7 @@ namespace Bifald.DB
         public Pladser()
         {
             this.Afsluttede_pladser = new HashSet<Afsluttede_pladser>();
+            this.Plads_historik = new HashSet<Plads_historik>();
         }
     
         public string Pladsnummer { get; set; }
@@ -27,5 +28,7 @@ namespace Bifald.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Afsluttede_pladser> Afsluttede_pladser { get; set; }
         public virtual Sager Sager { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Plads_historik> Plads_historik { get; set; }
     }
 }

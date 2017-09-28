@@ -32,6 +32,16 @@
           <Property Name="Adresse_fra" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="Adresse_til" Type="varchar" MaxLength="45" />
         </EntityType>
+        <EntityType Name="Plads_historik">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sagsnummer" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Pladsnummer" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Opret_afslut" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Dato" Type="date" Nullable="false" />
+        </EntityType>
         <EntityType Name="Pladser">
           <Key>
             <PropertyRef Name="Pladsnummer" />
@@ -62,6 +72,30 @@
             </Principal>
             <Dependent Role="Sager">
               <PropertyRef Name="KundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="plads_historik_ibfk_1">
+          <End Role="Sager" Type="Self.Sager" Multiplicity="1" />
+          <End Role="Plads_historik" Type="Self.Plads_historik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sager">
+              <PropertyRef Name="Sagsnummer" />
+            </Principal>
+            <Dependent Role="Plads_historik">
+              <PropertyRef Name="Sagsnummer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="plads_historik_ibfk_2">
+          <End Role="Pladser" Type="Self.Pladser" Multiplicity="1" />
+          <End Role="Plads_historik" Type="Self.Plads_historik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pladser">
+              <PropertyRef Name="Pladsnummer" />
+            </Principal>
+            <Dependent Role="Plads_historik">
+              <PropertyRef Name="Pladsnummer" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -125,11 +159,20 @@
           <EntitySet Name="Afsluttede_pladser" EntityType="Self.Afsluttede_pladser" Schema="bifald" store:Type="Tables" />
           <EntitySet Name="Kasser" EntityType="Self.Kasser" Schema="bifald" store:Type="Tables" />
           <EntitySet Name="Kunder" EntityType="Self.Kunder" Schema="bifald" store:Type="Tables" />
+          <EntitySet Name="Plads_historik" EntityType="Self.Plads_historik" Schema="bifald" store:Type="Tables" />
           <EntitySet Name="Pladser" EntityType="Self.Pladser" Schema="bifald" store:Type="Tables" />
           <EntitySet Name="Sager" EntityType="Self.Sager" Schema="bifald" store:Type="Tables" />
           <AssociationSet Name="Kundesager" Association="Self.Kundesager">
             <End Role="Kunder" EntitySet="Kunder" />
             <End Role="Sager" EntitySet="Sager" />
+          </AssociationSet>
+          <AssociationSet Name="plads_historik_ibfk_1" Association="Self.plads_historik_ibfk_1">
+            <End Role="Sager" EntitySet="Sager" />
+            <End Role="Plads_historik" EntitySet="Plads_historik" />
+          </AssociationSet>
+          <AssociationSet Name="plads_historik_ibfk_2" Association="Self.plads_historik_ibfk_2">
+            <End Role="Pladser" EntitySet="Pladser" />
+            <End Role="Plads_historik" EntitySet="Plads_historik" />
           </AssociationSet>
           <AssociationSet Name="Pladsnummer" Association="Self.Pladsnummer">
             <End Role="Pladser" EntitySet="Pladser" />
@@ -181,6 +224,7 @@
           <Property Name="Type" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Afsluttede_pladser" Relationship="Self.Pladsnummer" FromRole="Pladser" ToRole="Afsluttede_pladser" />
           <NavigationProperty Name="Sager" Relationship="Self.Sagspladser" FromRole="Pladser" ToRole="Sager" />
+          <NavigationProperty Name="Plads_historik" Relationship="DatabaseModel.plads_historik_ibfk_2" FromRole="Pladser" ToRole="Plads_historik" />
         </EntityType>
         <EntityType Name="Sager">
           <Key>
@@ -196,6 +240,7 @@
           <NavigationProperty Name="Pladser" Relationship="Self.Sagspladser" FromRole="Sager" ToRole="Pladser" />
           <NavigationProperty Name="Kasser" Relationship="DatabaseModel.Sagskasser" FromRole="Sager" ToRole="Kasser" />
           <Property Name="Noter" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Plads_historik" Relationship="DatabaseModel.plads_historik_ibfk_1" FromRole="Sager" ToRole="Plads_historik" />
         </EntityType>
         <Association Name="Pladsnummer">
           <End Role="Pladser" Type="Self.Pladser" Multiplicity="1">
@@ -279,6 +324,15 @@
             <End Role="Sager" EntitySet="Sager" />
             <End Role="Kasser" EntitySet="Kasser" />
           </AssociationSet>
+          <EntitySet Name="Plads_historik" EntityType="DatabaseModel.Plads_historik" />
+          <AssociationSet Name="plads_historik_ibfk_1" Association="DatabaseModel.plads_historik_ibfk_1">
+            <End Role="Sager" EntitySet="Sager" />
+            <End Role="Plads_historik" EntitySet="Plads_historik" />
+          </AssociationSet>
+          <AssociationSet Name="plads_historik_ibfk_2" Association="DatabaseModel.plads_historik_ibfk_2">
+            <End Role="Pladser" EntitySet="Pladser" />
+            <End Role="Plads_historik" EntitySet="Plads_historik" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Kasser">
           <Key>
@@ -302,6 +356,42 @@
             </Principal>
             <Dependent Role="Kasser">
               <PropertyRef Name="Sagsnummer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Plads_historik">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sagsnummer" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Pladsnummer" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Opret_afslut" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Dato" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Sager" Relationship="DatabaseModel.plads_historik_ibfk_1" FromRole="Plads_historik" ToRole="Sager" />
+          <NavigationProperty Name="Pladser" Relationship="DatabaseModel.plads_historik_ibfk_2" FromRole="Plads_historik" ToRole="Pladser" />
+        </EntityType>
+        <Association Name="plads_historik_ibfk_1">
+          <End Type="DatabaseModel.Sager" Role="Sager" Multiplicity="1" />
+          <End Type="DatabaseModel.Plads_historik" Role="Plads_historik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sager">
+              <PropertyRef Name="Sagsnummer" />
+            </Principal>
+            <Dependent Role="Plads_historik">
+              <PropertyRef Name="Sagsnummer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="plads_historik_ibfk_2">
+          <End Type="DatabaseModel.Pladser" Role="Pladser" Multiplicity="1" />
+          <End Type="DatabaseModel.Plads_historik" Role="Plads_historik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pladser">
+              <PropertyRef Name="Pladsnummer" />
+            </Principal>
+            <Dependent Role="Plads_historik">
+              <PropertyRef Name="Pladsnummer" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -359,6 +449,17 @@
                 <ScalarProperty Name="Antal" ColumnName="Antal" />
                 <ScalarProperty Name="Sagsnummer" ColumnName="Sagsnummer" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plads_historik">
+            <EntityTypeMapping TypeName="DatabaseModel.Plads_historik">
+              <MappingFragment StoreEntitySet="Plads_historik">
+                <ScalarProperty Name="Dato" ColumnName="Dato" />
+                <ScalarProperty Name="Opret_afslut" ColumnName="Opret_afslut" />
+                <ScalarProperty Name="Pladsnummer" ColumnName="Pladsnummer" />
+                <ScalarProperty Name="Sagsnummer" ColumnName="Sagsnummer" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

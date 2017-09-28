@@ -48,5 +48,6 @@
         <Button x:Name="delAfslutButton" HorizontalAlignment="Right" Width="150" Margin="0,0,190,20" Height="50" FontSize="16" IsDefault="True" Click="TilføjFjernPladserButton_Click" VerticalAlignment="Bottom" Content="Del afslut" Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Row="5" Grid.Column="1"/>
         <Button x:Name="afslutGenoptagButton" HorizontalAlignment="Right" Width="150" Margin="0,0,20,20" Height="50" FontSize="16" IsDefault="True" Click="AfslutGenoptagButton_Click" VerticalAlignment="Bottom" Content="Afslut/genoptag" Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Row="5" Grid.Column="1"/>
         <Button x:Name="udskrivSagButton" Content="Udskriv sag" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150" Margin="0,0,20,90" Height="50" FontSize="16" IsDefault="True" Click="UdskrivSagButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Row="5" Grid.Column="1"/>
+        <Button x:Name="pladsHistorikButton" Content="Plads historik" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150" Margin="0,0,190,90" Height="50" FontSize="16" IsDefault="True" Click="PladsHistorikButton_Click" Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Row="5" Grid.Column="1"/>
     </Grid>
 </Page>

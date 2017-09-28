@@ -8,11 +8,11 @@ using System.Windows.Navigation;
 
 namespace Bifald
 {
-    public partial class HentetLeveretKasser : Page
+    public partial class KasseHistorik : Page
     {
         DatabaseEntities database = new DatabaseEntities();
 
-        public HentetLeveretKasser()
+        public KasseHistorik()
         {
             InitializeComponent();
             List<DB.Kasser> kasser = database.Kasser.ToList();
