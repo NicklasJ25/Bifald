@@ -75,7 +75,7 @@ namespace Bifald
                 {
                     Sagsnummer = sagsnummerTextbox.Text,
                     Pladsnummer = plads.Pladsnummer,
-                    Opret_afslut = "Oprettet",
+                    Opret_afslut = "Tilføjet",
                     Dato = DateTime.Now
                 };
                 database.Plads_historik.Add(plads_Historik);

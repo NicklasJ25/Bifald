@@ -29,7 +29,7 @@ namespace Bifald
             }
             if (database.Pladser.Find(pladsnummer) != null)
             {
-                opretPladsValidering += "\nDenne plads er allerede oprettet.";
+                opretPladsValidering += "\nDenne plads er allerede tilføjet.";
             }
         }
 

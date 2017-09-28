@@ -9,6 +9,7 @@ using System.Windows.Navigation;
 using System.Data.Entity;
 using Bifald.Dialog;
 using MaterialDesignThemes.Wpf;
+using Bifald.Model;
 
 namespace Bifald
 {
@@ -33,7 +34,8 @@ namespace Bifald
 
             foreach (DB.Sager sag in sager)
             {
-                List<Afsluttede_pladser> pladser = database.Afsluttede_pladser.Include(ap => ap.Pladser).Where(p => p.Sagsnummer == sag.Sagsnummer).ToList();
+                List<Plads_historik> pladser = database.Plads_historik.Include(ap => ap.Pladser).Where(p => p.Sagsnummer == sag.Sagsnummer && p.Opret_afslut == "Afsluttet").ToList();
+                pladser = pladser.Distinct(new PladsComparer()).ToList();
                 string pladsnumre = string.Join("; ", pladser.Select(p => p.Pladsnummer));
                 Kunder kunde = database.Kunder.Find(sag.KundeId);
                 liste.Add(new SagerListsViewModel

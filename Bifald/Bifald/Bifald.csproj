@@ -152,6 +152,7 @@
     <Compile Include="Forside.xaml.cs">
       <DependentUpon>Forside.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\PladsComparer.cs" />
     <Compile Include="Model\PladsHistorikJoin.cs" />
     <Compile Include="Model\SagerJoin.cs" />
     <Compile Include="Model\Validering.cs" />

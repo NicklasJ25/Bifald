@@ -6,20 +6,20 @@
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:Bifald.Dialog"
-             mc:Ignorable="d" d:DesignWidth="400" Height="500">
+             mc:Ignorable="d" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="label" Content="Label" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" Margin="176,8,176,0" FontSize="16"/>
-        <ListView x:Name="listView" Margin="20,44,20,45" SelectionMode="Multiple">
+        <Label x:Name="label" Content="Label" VerticalAlignment="Top" HorizontalContentAlignment="Center" Margin="20,8,20,0" FontSize="16"/>
+        <ListView x:Name="listView" Margin="20,44,20,45" SelectionMode="Multiple" Width="Auto" MaxHeight="600">
             <ListView.View>
                 <GridView>
                     <GridView.ColumnHeaderContextMenu>
                         <ContextMenu/>
                     </GridView.ColumnHeaderContextMenu>
                     <GridViewColumn Header="Pladser" DisplayMemberBinding="{Binding Pladser}"/>
-                    <GridViewColumn Header="Oprettet/Afsluttet" DisplayMemberBinding="{Binding Opret_afslut}"/>
+                    <GridViewColumn Header="Tilføjet/Afsluttet" DisplayMemberBinding="{Binding Opret_afslut}"/>
                     <GridViewColumn Header="Dato" DisplayMemberBinding="{Binding Dato, StringFormat='dd MMMM, yyyy', ConverterCulture='da-DK'}"/>
                 </GridView>
             </ListView.View>
