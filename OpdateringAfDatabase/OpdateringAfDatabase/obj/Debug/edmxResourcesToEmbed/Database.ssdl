@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BifaldModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Afsluttede_pladser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Sagsnummer" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="Pladsnummer" Type="varchar" MaxLength="45" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Kasser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Sagsnummer" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="Antal" Type="int" Nullable="false" />
+    <Property Name="Hentet_leveret" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="Hentet_leveret_dato" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Kunder">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Navn" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="Adresse_fra" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="Adresse_til" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="Plads_historik">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Sagsnummer" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="Pladsnummer" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="Opret_afslut" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Dato" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Pladser">
+    <Key>
+      <PropertyRef Name="Pladsnummer" />
+    </Key>
+    <Property Name="Pladsnummer" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="Sagsnummer" Type="varchar" MaxLength="45" />
+    <Property Name="Type" Type="varchar" MaxLength="5" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sager">
+    <Key>
+      <PropertyRef Name="Sagsnummer" />
+    </Key>
+    <Property Name="Sagsnummer" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="KundeId" Type="int" Nullable="false" />
+    <Property Name="Opbevaring_startdato" Type="date" Nullable="false" />
+    <Property Name="Opbevaring_slutdato" Type="date" />
+    <Property Name="Afsluttet" Type="bool" Nullable="false" />
+    <Property Name="Noter" Type="varchar" MaxLength="5000" />
+  </EntityType>
+  <Association Name="Kundesager">
+    <End Role="Kunder" Type="Self.Kunder" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Sager" Type="Self.Sager" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kunder">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sager">
+        <PropertyRef Name="KundeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="plads_historik_ibfk_1">
+    <End Role="Sager" Type="Self.Sager" Multiplicity="1" />
+    <End Role="Plads_historik" Type="Self.Plads_historik" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sager">
+        <PropertyRef Name="Sagsnummer" />
+      </Principal>
+      <Dependent Role="Plads_historik">
+        <PropertyRef Name="Sagsnummer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="plads_historik_ibfk_2">
+    <End Role="Pladser" Type="Self.Pladser" Multiplicity="1" />
+    <End Role="Plads_historik" Type="Self.Plads_historik" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pladser">
+        <PropertyRef Name="Pladsnummer" />
+      </Principal>
+      <Dependent Role="Plads_historik">
+        <PropertyRef Name="Pladsnummer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Pladsnummer">
+    <End Role="Pladser" Type="Self.Pladser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Afsluttede_pladser" Type="Self.Afsluttede_pladser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pladser">
+        <PropertyRef Name="Pladsnummer" />
+      </Principal>
+      <Dependent Role="Afsluttede_pladser">
+        <PropertyRef Name="Pladsnummer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Sagskasser">
+    <End Role="Sager" Type="Self.Sager" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Kasser" Type="Self.Kasser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sager">
+        <PropertyRef Name="Sagsnummer" />
+      </Principal>
+      <Dependent Role="Kasser">
+        <PropertyRef Name="Sagsnummer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Sagsnummer">
+    <End Role="Sager" Type="Self.Sager" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Afsluttede_pladser" Type="Self.Afsluttede_pladser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sager">
+        <PropertyRef Name="Sagsnummer" />
+      </Principal>
+      <Dependent Role="Afsluttede_pladser">
+        <PropertyRef Name="Sagsnummer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Sagspladser">
+    <End Role="Sager" Type="Self.Sager" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Pladser" Type="Self.Pladser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sager">
+        <PropertyRef Name="Sagsnummer" />
+      </Principal>
+      <Dependent Role="Pladser">
+        <PropertyRef Name="Sagsnummer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BifaldModelStoreContainer">
+    <EntitySet Name="Afsluttede_pladser" EntityType="Self.Afsluttede_pladser" Schema="bifald" store:Type="Tables" />
+    <EntitySet Name="Kasser" EntityType="Self.Kasser" Schema="bifald" store:Type="Tables" />
+    <EntitySet Name="Kunder" EntityType="Self.Kunder" Schema="bifald" store:Type="Tables" />
+    <EntitySet Name="Plads_historik" EntityType="Self.Plads_historik" Schema="bifald" store:Type="Tables" />
+    <EntitySet Name="Pladser" EntityType="Self.Pladser" Schema="bifald" store:Type="Tables" />
+    <EntitySet Name="Sager" EntityType="Self.Sager" Schema="bifald" store:Type="Tables" />
+    <AssociationSet Name="Kundesager" Association="Self.Kundesager">
+      <End Role="Kunder" EntitySet="Kunder" />
+      <End Role="Sager" EntitySet="Sager" />
+    </AssociationSet>
+    <AssociationSet Name="plads_historik_ibfk_1" Association="Self.plads_historik_ibfk_1">
+      <End Role="Sager" EntitySet="Sager" />
+      <End Role="Plads_historik" EntitySet="Plads_historik" />
+    </AssociationSet>
+    <AssociationSet Name="plads_historik_ibfk_2" Association="Self.plads_historik_ibfk_2">
+      <End Role="Pladser" EntitySet="Pladser" />
+      <End Role="Plads_historik" EntitySet="Plads_historik" />
+    </AssociationSet>
+    <AssociationSet Name="Pladsnummer" Association="Self.Pladsnummer">
+      <End Role="Pladser" EntitySet="Pladser" />
+      <End Role="Afsluttede_pladser" EntitySet="Afsluttede_pladser" />
+    </AssociationSet>
+    <AssociationSet Name="Sagskasser" Association="Self.Sagskasser">
+      <End Role="Sager" EntitySet="Sager" />
+      <End Role="Kasser" EntitySet="Kasser" />
+    </AssociationSet>
+    <AssociationSet Name="Sagsnummer" Association="Self.Sagsnummer">
+      <End Role="Sager" EntitySet="Sager" />
+      <End Role="Afsluttede_pladser" EntitySet="Afsluttede_pladser" />
+    </AssociationSet>
+    <AssociationSet Name="Sagspladser" Association="Self.Sagspladser">
+      <End Role="Sager" EntitySet="Sager" />
+      <End Role="Pladser" EntitySet="Pladser" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

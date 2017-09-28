@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BifaldModelStoreContainer" CdmEntityContainer="BifaldEntities">
+    <EntitySetMapping Name="Afsluttede_pladser">
+      <EntityTypeMapping TypeName="BifaldModel.Afsluttede_pladser">
+        <MappingFragment StoreEntitySet="Afsluttede_pladser">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Sagsnummer" ColumnName="Sagsnummer" />
+          <ScalarProperty Name="Pladsnummer" ColumnName="Pladsnummer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Kasser">
+      <EntityTypeMapping TypeName="BifaldModel.Kasser">
+        <MappingFragment StoreEntitySet="Kasser">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Sagsnummer" ColumnName="Sagsnummer" />
+          <ScalarProperty Name="Antal" ColumnName="Antal" />
+          <ScalarProperty Name="Hentet_leveret" ColumnName="Hentet_leveret" />
+          <ScalarProperty Name="Hentet_leveret_dato" ColumnName="Hentet_leveret_dato" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Kunder">
+      <EntityTypeMapping TypeName="BifaldModel.Kunder">
+        <MappingFragment StoreEntitySet="Kunder">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Navn" ColumnName="Navn" />
+          <ScalarProperty Name="Adresse_fra" ColumnName="Adresse_fra" />
+          <ScalarProperty Name="Adresse_til" ColumnName="Adresse_til" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pladser">
+      <EntityTypeMapping TypeName="BifaldModel.Pladser">
+        <MappingFragment StoreEntitySet="Pladser">
+          <ScalarProperty Name="Pladsnummer" ColumnName="Pladsnummer" />
+          <ScalarProperty Name="Sagsnummer" ColumnName="Sagsnummer" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sager">
+      <EntityTypeMapping TypeName="BifaldModel.Sager">
+        <MappingFragment StoreEntitySet="Sager">
+          <ScalarProperty Name="Sagsnummer" ColumnName="Sagsnummer" />
+          <ScalarProperty Name="KundeId" ColumnName="KundeId" />
+          <ScalarProperty Name="Opbevaring_startdato" ColumnName="Opbevaring_startdato" />
+          <ScalarProperty Name="Opbevaring_slutdato" ColumnName="Opbevaring_slutdato" />
+          <ScalarProperty Name="Afsluttet" ColumnName="Afsluttet" />
+          <ScalarProperty Name="Noter" ColumnName="Noter" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Plads_historik">
+      <EntityTypeMapping TypeName="BifaldModel.Plads_historik">
+        <MappingFragment StoreEntitySet="Plads_historik">
+          <ScalarProperty Name="Dato" ColumnName="Dato" />
+          <ScalarProperty Name="Opret_afslut" ColumnName="Opret_afslut" />
+          <ScalarProperty Name="Pladsnummer" ColumnName="Pladsnummer" />
+          <ScalarProperty Name="Sagsnummer" ColumnName="Sagsnummer" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

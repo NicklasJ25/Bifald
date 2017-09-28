@@ -1,0 +1,8 @@
+c:\users\nist\documents\visual studio 2017\Projects\OpdateringAfDatabase\OpdateringAfDatabase\obj\Debug\OpdateringAfDatabase.csproj.CoreCompileInputs.cache
+c:\users\nist\documents\visual studio 2017\Projects\OpdateringAfDatabase\OpdateringAfDatabase\bin\Debug\OpdateringAfDatabase.exe.config
+c:\users\nist\documents\visual studio 2017\Projects\OpdateringAfDatabase\OpdateringAfDatabase\bin\Debug\OpdateringAfDatabase.exe
+c:\users\nist\documents\visual studio 2017\Projects\OpdateringAfDatabase\OpdateringAfDatabase\bin\Debug\OpdateringAfDatabase.pdb
+c:\users\nist\documents\visual studio 2017\Projects\OpdateringAfDatabase\OpdateringAfDatabase\bin\Debug\EntityFramework.dll
+c:\users\nist\documents\visual studio 2017\Projects\OpdateringAfDatabase\OpdateringAfDatabase\bin\Debug\EntityFramework.xml
+c:\users\nist\documents\visual studio 2017\Projects\OpdateringAfDatabase\OpdateringAfDatabase\obj\Debug\OpdateringAfDatabase.exe
+c:\users\nist\documents\visual studio 2017\Projects\OpdateringAfDatabase\OpdateringAfDatabase\obj\Debug\OpdateringAfDatabase.pdb
