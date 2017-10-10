@@ -129,15 +129,17 @@ namespace Bifald
 
         private async void AfslutGenoptagButton_Click(object sender, RoutedEventArgs e)
         {
-            var view = new StandardDialog();
             if (afslutGenoptagButton.Content.Equals("Afslut sag"))
             {
+                var view = new AfsluttetDialog();
                 view.label.Content = "Er du sikker på du vil aflutte sagen: " + sag.Sagsnummer + "?";
+                view.opbevaringFraDatePicker.SelectedDate = DateTime.Now;
 
                 await DialogHost.Show(view, "RootDialog", AfslutClosingEventHandler);
             }
             else if (afslutGenoptagButton.Content.Equals("Genoptag sag"))
             {
+                var view = new StandardDialog();
                 view.label.Content = "Er du sikker på du vil genoptage sagen: " + sag.Sagsnummer + "?";
 
                 await DialogHost.Show(view, "RootDialog", GenoptagClosingEventHandler);
@@ -156,6 +158,8 @@ namespace Bifald
         {
             if ((bool) eventArgs.Parameter)
             {
+                DialogHost dialogHost = sender as DialogHost;
+                AfsluttetDialog afsluttetDialog = dialogHost.DialogContent as AfsluttetDialog;
                 List<Pladser> afslutPladser = sag.Pladser.ToList();
                 foreach (Pladser plads in afslutPladser)
                 {
@@ -164,13 +168,13 @@ namespace Bifald
                         Sagsnummer = sag.Sagsnummer,
                         Pladsnummer = plads.Pladsnummer,
                         Opret_afslut = "Afsluttet",
-                        Dato = DateTime.Now
+                        Dato = (DateTime) afsluttetDialog.opbevaringFraDatePicker.SelectedDate
                     };
                     database.Plads_historik.Add(plads_Historik);
                     plads.Sagsnummer = null;
                 }
                 sag.Afsluttet = true;
-                sag.Opbevaring_slutdato = DateTime.Now;
+                sag.Opbevaring_slutdato = afsluttetDialog.opbevaringFraDatePicker.SelectedDate;
                 database.SaveChanges();
 
                 OpdaterSagsvisning();
@@ -244,7 +248,7 @@ namespace Bifald
 
         private void TilføjFjernPladserClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            if (!eventArgs.IsCancelled)
+            if ((bool)eventArgs.Parameter)
             {
                 DialogHost dialogHost = sender as DialogHost;
                 ListDialog listDialog = dialogHost.DialogContent as ListDialog;

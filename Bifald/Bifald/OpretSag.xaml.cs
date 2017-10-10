@@ -122,7 +122,7 @@ namespace Bifald
 
         private void TilføjFjernPladserClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            if (!eventArgs.IsCancelled)
+            if ((bool) eventArgs.Parameter)
             {
                 DialogHost dialogHost = sender as DialogHost;
                 ListDialog listDialog = dialogHost.DialogContent as ListDialog;

@@ -116,5 +116,15 @@ namespace Bifald
                 ns.Navigate(new Uri("sag.xaml", UriKind.Relative));
             }
         }
+
+        private void printButton_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog printDialog = new PrintDialog();
+
+            if (printDialog.ShowDialog() == true)
+            {
+                printDialog.PrintVisual(sagerListView, "Print");
+            }
+        }
     }
 }

@@ -93,7 +93,7 @@ namespace Bifald
 
         private void GenskabClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            if (!eventArgs.IsCancelled)
+            if ((bool)eventArgs.Parameter)
             {
                 try
                 {

@@ -27,5 +27,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button x:Name="printButton" Content="Print liste" Margin="330,0,0,20" Height="50" FontSize="16" Click="printButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="150" Style="{StaticResource MaterialDesignRaisedLightButton}"/>
     </Grid>
 </Page>
